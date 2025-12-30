@@ -1,0 +1,12 @@
+Library/*
+Library/Artifacts/*
+ProjectSettings/*
+Temp/*
+Logs/*
+UserSettings/*
+.vscode/*
+Packages/manifest.json
+Assembly-CSharp.csproj
+Unity File Manager.sln
+Assets/SPC/*
+Packages/packages-lock.json
