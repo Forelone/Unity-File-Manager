@@ -5,11 +5,14 @@ using UnityEngine;
 public class GATEProtocol : MonoBehaviour
 {
     PathProtocol Peepee;
+    [SerializeField] TextMesh TM;
     string GatePath = "";
     void Start()
     {
         Peepee = GetComponentInParent<PathProtocol>();
-        GatePath = Peepee.GetPath() + $"{gameObject.transform.parent.name}/";
+        string Path = gameObject.transform.parent.name;
+        GatePath = Peepee.GetPath() + $"{Path}/";
+        TM.text = Path;
     }
 
     public PathProtocol GivePeepee() //*WHEEZE*

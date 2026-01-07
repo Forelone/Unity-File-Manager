@@ -75,10 +75,11 @@ public class PathProtocol : MonoBehaviour
 
         if (FilesInside == 0) MinFileScale = MinFolderScale;
         int FakeDirsInside = (DirsInside == 0) ? FilesInside : DirsInside; //Act like you have a lot of files so player can walk peacefully.
+        int FakeFilesInside = (FilesInside == 0) ? DirsInside : FilesInside; //You get the drill.
 
         Vector3 StartScale = transform.localScale,
                 EndScale = Vector3.up * 100
-                + (Vector3.right * Mathf.Clamp(FilesInside * MinFileScale, MinFileScale, Mathf.Infinity)
+                + (Vector3.right * Mathf.Clamp(FakeFilesInside * MinFileScale, MinFileScale, Mathf.Infinity)
                 + Vector3.forward * Mathf.Clamp(FakeDirsInside * MinFolderScale, MinFolderScale, Mathf.Infinity));
                 
         for (int F = 0; F < 100; F++)
@@ -93,7 +94,7 @@ public class PathProtocol : MonoBehaviour
         List<Quaternion> GateRot = new List<Quaternion>();
 
         float DoorSizer = Mathf.Clamp(FakeDirsInside,1,Mathf.Infinity) * MinFolderScale / 2;
-        float FileSizer = Mathf.Clamp(FilesInside,1,Mathf.Infinity) * MinFileScale / 2;
+        float FileSizer = Mathf.Clamp(FakeFilesInside,1,Mathf.Infinity) * MinFileScale / 2;
         Vector3 LeftStart = transform.position - transform.right * FileSizer - transform.forward * DoorSizer + transform.up * 50,
                 LeftEnd = transform.position - transform.right * FileSizer + transform.forward * DoorSizer+ transform.up * 50,
                 ForwardStart = LeftEnd,
@@ -165,10 +166,11 @@ public class PathProtocol : MonoBehaviour
         GameObject FileEntrances = new GameObject("Files");
         FileEntrances.transform.SetParent(transform);
 
-        Vector3 SpawnPos = transform.position + transform.up * 100;
+        Vector3 SpawnPos = transform.position + transform.up * 50 + transform.forward * Random.Range(-1,1f) + transform.right * Random.Range(-1,1f);
         GameObject[] FileObjects = new GameObject[Files.Length];
         foreach (var File in Files)
         {
+            //print(File.Extension);
             bool MatchedAFileType = false;
             Transform Object = null;
             foreach (var ReadyPrefab in OtherPrefabs)
@@ -227,6 +229,7 @@ public class PathProtocol : MonoBehaviour
             RG = Object.TryGetComponent(out RG) ? RG : Object.AddComponent<Rigidbody>();
 
             if (Object.TryGetComponent(out GATEProtocol Gate)) Gate.GateClose();
+            if (Object.TryGetComponent(out PathProtocol Path)) Path.RequestPathClose(Path.GetPath(),null);
 
             RND = Vector3.up * Random.Range(-1, 1f) + Vector3.forward * Random.Range(-1, 1f) + Vector3.right * Random.Range(-1, 1f);
             RND2 = Vector3.up * Random.Range(-1, 1f) + Vector3.forward * Random.Range(-1, 1f) + Vector3.right * Random.Range(-1, 1f);
@@ -237,8 +240,7 @@ public class PathProtocol : MonoBehaviour
             Destroy(Object.gameObject, DestroyTimer);
             yield return new WaitForFixedUpdate();
         }
-
-
+        transform.SetParent(null); //Yes
         CL = transform.TryGetComponent(out CL) ? CL : transform.AddComponent<MeshCollider>();
             if (CL.GetType() == typeof(MeshCollider))
             {

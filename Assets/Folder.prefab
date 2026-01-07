@@ -125,6 +125,14 @@ MonoBehaviour:
   Debug: 0
   GatePrefab: {fileID: 5128833936911146127, guid: fd5de819cb9a12f70b29db62eee3e1da, type: 3}
   FailPrefab: {fileID: 991579548695591784, guid: 1fad67c4838a2441ba0c8a5ceb03828b, type: 3}
-  OtherPrefabs: []
+  OtherPrefabs:
+  - Extension: .png
+    Prefab: {fileID: 5220221798565065876, guid: 2a28a06bdc44ed4e6960f67d47419c27, type: 3}
+  - Extension: .jpg
+    Prefab: {fileID: 5220221798565065876, guid: 2a28a06bdc44ed4e6960f67d47419c27, type: 3}
+  - Extension: .jfif
+    Prefab: {fileID: 5220221798565065876, guid: 2a28a06bdc44ed4e6960f67d47419c27, type: 3}
+  - Extension: .txt
+    Prefab: {fileID: 5220221798565065876, guid: 2c28f66dd842d32939b91578a024449d, type: 3}
   MinFileScale: 5
   MinFolderScale: 2

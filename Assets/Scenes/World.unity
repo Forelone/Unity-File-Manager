@@ -183,6 +183,7 @@ MonoBehaviour:
   CharacterPath: 
   StartPath: 
   FolderPrefab: {fileID: 4391949339040137960, guid: 61dd58624e79a69058e5368541ef3c01, type: 3}
+  CurrentlyOpenFolders: []
 --- !u!114 &1786347673
 MonoBehaviour:
   m_ObjectHideFlags: 0
