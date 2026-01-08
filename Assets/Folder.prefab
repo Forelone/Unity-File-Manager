@@ -135,6 +135,14 @@ MonoBehaviour:
     Prefab: {fileID: 5220221798565065876, guid: 2a28a06bdc44ed4e6960f67d47419c27, type: 3}
   - Extension: .txt
     Prefab: {fileID: 5220221798565065876, guid: 2c28f66dd842d32939b91578a024449d, type: 3}
+  - Extension: .zip
+    Prefab: {fileID: 6421371125490455760, guid: 91cbfc51c9ae10f41b8264048fc89e68, type: 3}
+  - Extension: .rar
+    Prefab: {fileID: 6421371125490455760, guid: 91cbfc51c9ae10f41b8264048fc89e68, type: 3}
+  - Extension: .7z
+    Prefab: {fileID: 6421371125490455760, guid: 91cbfc51c9ae10f41b8264048fc89e68, type: 3}
+  - Extension: .pdf
+    Prefab: {fileID: 8208171588311980044, guid: 0e4b92c953459c1debb05f1721afae32, type: 3}
   MinFileScale: 5
   MinFolderScale: 2
 --- !u!1 &6793608521297116460
@@ -149,7 +157,7 @@ GameObject:
   - component: {fileID: 7107724530642348083}
   - component: {fileID: 2783832372583748556}
   m_Layer: 3
-  m_Name: ' '
+  m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -191,7 +199,7 @@ MeshCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 126
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0

@@ -180,7 +180,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bcea77610d0626ec968dba40878423b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterPath: 
   StartPath: 
   FolderPrefab: {fileID: 4391949339040137960, guid: 61dd58624e79a69058e5368541ef3c01, type: 3}
   CurrentlyOpenFolders: []
@@ -442,6 +441,10 @@ PrefabInstance:
     - target: {fileID: 6977292485103688160, guid: 2e1043d9d4c6b68b8bc690e654b11942, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7058320983379530502, guid: 2e1043d9d4c6b68b8bc690e654b11942, type: 3}
+      propertyPath: EyeInteractLayer.m_Bits
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7129560073730878538, guid: 2e1043d9d4c6b68b8bc690e654b11942, type: 3}
       propertyPath: m_Enabled
