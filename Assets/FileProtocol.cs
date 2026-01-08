@@ -7,7 +7,6 @@ using UnityEngine;
 public class FileProtocol : MonoBehaviour
 {
     public static FileProtocol Instance { get; private set; }
-    public string CharacterPath = ""; //THIS CAN NOT BE EMPTY.
     public string StartPath = "";
 
     [SerializeField] GameObject FolderPrefab;
