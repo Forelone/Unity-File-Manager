@@ -69,7 +69,7 @@ public class PathProtocol : MonoBehaviour
         }
 
         int TotalObjects = FilesInside + DirsInside;
-        print($"{Path} contains {TotalObjects} files with biggest File size being {BiggestFileSize / 1048576}MB");
+//        print($"{Path} contains {TotalObjects} files with biggest File size being {BiggestFileSize / 1048576}MB");
 
         //End of gathering directory info
 

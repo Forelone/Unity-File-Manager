@@ -149,6 +149,10 @@ MonoBehaviour:
     Prefab: {fileID: 5661462487175776091, guid: 20ac8328d0193de1abde05f3a09f4656, type: 3}
   - Extension: .wav
     Prefab: {fileID: 5661462487175776091, guid: 20ac8328d0193de1abde05f3a09f4656, type: 3}
+  - Extension: .mp4
+    Prefab: {fileID: 139512919532505941, guid: e560baaedbfaa460787f5a680e7e5c2b, type: 3}
+  - Extension: .ogv
+    Prefab: {fileID: 139512919532505941, guid: e560baaedbfaa460787f5a680e7e5c2b, type: 3}
   MinFileScale: 5
   MinFolderScale: 2
 --- !u!1 &6793608521297116460
