@@ -143,6 +143,12 @@ MonoBehaviour:
     Prefab: {fileID: 6421371125490455760, guid: 91cbfc51c9ae10f41b8264048fc89e68, type: 3}
   - Extension: .pdf
     Prefab: {fileID: 8208171588311980044, guid: 0e4b92c953459c1debb05f1721afae32, type: 3}
+  - Extension: .mp3
+    Prefab: {fileID: 5661462487175776091, guid: 20ac8328d0193de1abde05f3a09f4656, type: 3}
+  - Extension: .ogg
+    Prefab: {fileID: 5661462487175776091, guid: 20ac8328d0193de1abde05f3a09f4656, type: 3}
+  - Extension: .wav
+    Prefab: {fileID: 5661462487175776091, guid: 20ac8328d0193de1abde05f3a09f4656, type: 3}
   MinFileScale: 5
   MinFolderScale: 2
 --- !u!1 &6793608521297116460
