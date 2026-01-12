@@ -151,6 +151,7 @@ GameObject:
   - component: {fileID: 5240195836456563257}
   - component: {fileID: 8740768355382974364}
   - component: {fileID: 7873574291554751644}
+  - component: {fileID: 917871141837764475}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -196,7 +197,7 @@ MonoBehaviour:
   PInput: {fileID: 7887733244745508973}
   HandInteractLayer:
     serializedVersion: 2
-    m_Bits: 51
+    m_Bits: 55
 --- !u!114 &7887733244745508973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,9 +329,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GrabKey: 101
-  PH: {fileID: 0}
-  ArmToAim: {fileID: 0}
+  PH: {fileID: 7058320983379530502}
+  RG: {fileID: 7873574291554751644}
+  ArmToAim: {fileID: 2624912070566975945}
   HandToGrab: {fileID: 0}
+  HeadToRotate: {fileID: 2110177199869866593}
   CurrentlyGrabbing: {fileID: 0}
 --- !u!54 &7873574291554751644
 Rigidbody:
@@ -359,6 +362,29 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 3
+--- !u!136 &917871141837764475
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153405953771420644}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2.7440653
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.18111086, z: 0}
 --- !u!1 &243159911675240500
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Profiling;
 using Random = UnityEngine.Random;
 
 public class PathProtocol : MonoBehaviour
@@ -46,6 +48,7 @@ public class PathProtocol : MonoBehaviour
 
     IEnumerator PathHandle()
     {
+        bool HasCustomizationFile = false; List<string> CustomizationData = new List<string>();
         DirectoryInfo DirInfo = new DirectoryInfo(Path);
         FileInfo[] Files = DirInfo.GetFiles();
         DirectoryInfo[] Directories = DirInfo.GetDirectories();
@@ -54,33 +57,50 @@ public class PathProtocol : MonoBehaviour
 
         long BiggestFileSize = 0;
 
-        foreach (var File in Files)
+        foreach (var ThisFile in Files)
         {
-            SizeInBytes += File.Length;
+            SizeInBytes += ThisFile.Length;
             FilesInside++;
 
-            if (File.Length > BiggestFileSize)
-                BiggestFileSize = File.Length;
+            if (ThisFile.Extension == ".ufmsave")
+            {
+                HasCustomizationFile = true;
+                CustomizationData = File.ReadAllLines(Path + ThisFile.Name).ToList();
+            }
+            
+            if (ThisFile.Length > BiggestFileSize)
+                BiggestFileSize = ThisFile.Length;
         }
-
         foreach (var Directory in Directories)
         {
             DirsInside++;
         }
 
         int TotalObjects = FilesInside + DirsInside;
-//        print($"{Path} contains {TotalObjects} files with biggest File size being {BiggestFileSize / 1048576}MB");
+        //        print($"{Path} contains {TotalObjects} files with biggest File size being {BiggestFileSize / 1048576}MB");
 
         //End of gathering directory info
 
-        if (FilesInside == 0) MinFileScale = MinFolderScale;
+        Color BaseColor = Color.white;
+        Vector3 CustomBaseSize = Vector3.zero;
+        if (HasCustomizationFile)
+        {
+            string[] Header = CustomizationData[0].Split("),(");
+            var SizeVec = FileProtocol.Instance.StringToVector3(Header[0]);
+            var ColorVec = FileProtocol.Instance.StringToVector3(Header[1]);
+            BaseColor = new Color(ColorVec.x, ColorVec.y, ColorVec.z);
+            GetComponent<Renderer>().material.color = BaseColor;
+            CustomBaseSize = SizeVec;
+        }
+
+            if (FilesInside == 0) MinFileScale = MinFolderScale;
         int FakeDirsInside = (DirsInside == 0) ? FilesInside : DirsInside; //Act like you have a lot of files so player can walk peacefully.
         int FakeFilesInside = (FilesInside == 0) ? DirsInside : FilesInside; //You get the drill.
 
         Vector3 StartScale = transform.localScale,
-                EndScale = Vector3.up * 100
+                EndScale = (!HasCustomizationFile) ? Vector3.up * 100
                 + (Vector3.right * Mathf.Clamp(FakeFilesInside * MinFileScale, MinFileScale, Mathf.Infinity)
-                + Vector3.forward * Mathf.Clamp(FakeDirsInside * MinFolderScale, MinFolderScale, Mathf.Infinity));
+                + Vector3.forward * Mathf.Clamp(FakeDirsInside * MinFolderScale, MinFolderScale, Mathf.Infinity)) : CustomBaseSize;
                 
         for (int F = 0; F < 100; F++)
         {
@@ -93,14 +113,15 @@ public class PathProtocol : MonoBehaviour
         List<Vector3> GatePos = new List<Vector3>();
         List<Quaternion> GateRot = new List<Quaternion>();
 
-        float DoorSizer = Mathf.Clamp(FakeDirsInside,1,Mathf.Infinity) * MinFolderScale / 2;
-        float FileSizer = Mathf.Clamp(FakeFilesInside,1,Mathf.Infinity) * MinFileScale / 2;
-        Vector3 LeftStart = transform.position - transform.right * FileSizer - transform.forward * DoorSizer + transform.up * 50,
-                LeftEnd = transform.position - transform.right * FileSizer + transform.forward * DoorSizer+ transform.up * 50,
+        float DoorSizer = (!HasCustomizationFile) ? Mathf.Clamp(FakeDirsInside,1,Mathf.Infinity) * MinFolderScale / 2 : CustomBaseSize.z / 2;
+        float FileSizer = (!HasCustomizationFile) ? Mathf.Clamp(FakeFilesInside, 1, Mathf.Infinity) * MinFileScale / 2 : CustomBaseSize.x / 2;
+        float UpSizer = (!HasCustomizationFile) ? 50 : CustomBaseSize.y / 2;
+        Vector3 LeftStart = transform.position - transform.right * FileSizer - transform.forward * DoorSizer + transform.up * UpSizer,
+                LeftEnd = transform.position - transform.right * FileSizer + transform.forward * DoorSizer+ transform.up * UpSizer,
                 ForwardStart = LeftEnd,
-                ForwardEnd = transform.position + transform.right * FileSizer + transform.forward * DoorSizer+ transform.up * 50,
+                ForwardEnd = transform.position + transform.right * FileSizer + transform.forward * DoorSizer+ transform.up * UpSizer,
                 RightStart = ForwardEnd,
-                RightEnd = transform.position + transform.right * FileSizer - transform.forward * DoorSizer+ transform.up * 50;
+                RightEnd = transform.position + transform.right * FileSizer - transform.forward * DoorSizer+ transform.up * UpSizer;
 
         int DirLeft = DirsInside;
         if (DirsInside <= 3)
@@ -163,6 +184,7 @@ public class PathProtocol : MonoBehaviour
 
         //End of Directory Gates
 
+        //Start of File creations
         GameObject FileEntrances = new GameObject("Files");
         FileEntrances.transform.SetParent(transform);
 
@@ -189,8 +211,20 @@ public class PathProtocol : MonoBehaviour
                 Object.SetPositionAndRotation(SpawnPos, transform.rotation);
             }
 
+            var FoundYa = CustomizationData.Find(X => X.Split(" , ")[0] == File.Name);
+            if (FoundYa != null)
+            {
+                FileProtocol Fap = FileProtocol.Instance;
+                string[] Values = FoundYa.Split(" , ");
+                Vector3 Position = Fap.StringToVector3(Values[1]);
+                Quaternion Rotation = Quaternion.Euler(Fap.StringToVector3(Values[2]));
+                Object.SetPositionAndRotation(Position, Rotation);
+                Object.GetComponent<Renderer>().material.color = Fap.StringToColor3(Values[3]);
+            }
+
             Object.AddComponent<Item>();
             Object.gameObject.name = File.Name;
+            Object.GetComponent<Rigidbody>();
             Object.SetParent(FileEntrances.transform);
         }
     }
@@ -203,7 +237,45 @@ public class PathProtocol : MonoBehaviour
 
     public void KillYourSelf()
     {
-        StartCoroutine(ChildKillingFunction(transform));
+        StartCoroutine(AttemptToSelfCare());
+    }
+
+    IEnumerator AttemptToSelfCare()
+    {
+        List<string> SaveStrings = new List<string>();
+        Color Col = GetComponent<Renderer>().material.color;
+        Vector3 VecCol = new Vector3(Col.r, Col.g, Col.b);
+        SaveStrings.Add($"{transform.localScale.ToString()},{VecCol.ToString()}");
+        Transform FileTransform = transform.Find("Files");
+        for (int i = FileTransform.childCount; i > 0; i--)
+        {
+            Transform Obj = FileTransform.GetChild(i - 1);
+
+            Color color = Obj.GetComponent<Renderer>().material.color;
+            Vector3 col = new Vector3(color.r, color.g, color.b);
+            Vector3 pos = Obj.position;
+            Vector3 rot = Obj.eulerAngles;
+            string LifeString = $"{Obj.gameObject.name} , {pos.ToString()} , {rot.ToString()} , {col.ToString()}";
+            //Why not just read like buffers? 
+            // coz i like strings. 
+            // they're readable by humans
+            // And also performance heavy but who cares?
+            // in a world where you have to subscribe to everything.
+            SaveStrings.Add(LifeString);
+            yield return new WaitForFixedUpdate();
+        }
+
+        string SavePath = Path + "save.ufmsave";
+        if (File.Exists(SavePath))
+        {
+            print($"Saved to {SavePath}");
+        }
+        else
+        {
+            print($"File Already exists. Overwriting it.");
+        }
+        File.WriteAllLines(SavePath, SaveStrings);
+        StartCoroutine(ChildKillingFunction(transform));        
     }
     
     IEnumerator ChildKillingFunction(Transform T) //Top 10 jokes that went too far

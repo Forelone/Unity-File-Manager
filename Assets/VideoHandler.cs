@@ -14,10 +14,15 @@ public class VideoHandler : MonoBehaviour
         string FullPath = PP.GetPath() + Name;
 
         string HTML = $"file://{FullPath}";
-        VP.url = HTML;
-        VP.Play();
-
-        //It should've worked but it doesn't in linux. Fuck.
+        try
+        {
+            VP.url = HTML;
+            VP.Play();
+        }
+        catch (System.Exception)
+        {
+            /*deez nuts.*/
+        }
     }
     
     void OnDisable()
