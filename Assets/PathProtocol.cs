@@ -195,7 +195,7 @@ public class PathProtocol : MonoBehaviour
             //print(File.Extension);
             bool MatchedAFileType = false;
             Transform Object = null;
-            foreach (var ReadyPrefab in OtherPrefabs)
+            foreach (var ReadyPrefab in OtherPrefabs) //now that i look at it. It's fucking shit XD
             {
                 if (File.Extension == ReadyPrefab.Extension)
                 {
@@ -226,6 +226,8 @@ public class PathProtocol : MonoBehaviour
             Object.gameObject.name = File.Name;
             Object.GetComponent<Rigidbody>();
             Object.SetParent(FileEntrances.transform);
+
+            Object.AddComponent<ObjectFileInfo>().Setup(File.Name, File.Extension, File.FullName, File.Length, File.CreationTime, File.LastWriteTime, File.IsReadOnly);
         }
     }
 

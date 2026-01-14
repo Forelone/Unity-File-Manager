@@ -49,6 +49,10 @@ public class FileProtocol : MonoBehaviour
 
     public void OpenFolder(string Path,GATEProtocol RequestedBy)
     {
+        var ExistingPath = CurrentlyOpenFolders.Find(x => x.GetPath() == Path);
+
+        if (ExistingPath) { Debug.LogError("This path is already open!",ExistingPath.gameObject); return; }
+
         GameObject RequestFolder = Instantiate(FolderPrefab);
         PathProtocol pathProtocol = RequestFolder.GetComponent<PathProtocol>();
         Transform Parent = RequestedBy.transform;
@@ -71,7 +75,7 @@ public class FileProtocol : MonoBehaviour
             CurrentlyOpenFolders.Remove(FoundPeePee);
         }
         else
-            Debug.LogError($"Path not found: {gatePath}", gATEProtocol.gameObject);
+            Debug.LogError($"Path not found or is already closed: {gatePath}", gATEProtocol.gameObject);
     }
 
     public Vector3 StringToVector3(string Input)
