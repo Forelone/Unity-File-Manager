@@ -9,6 +9,8 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] PlayerHands PH;
     [SerializeField] PlayerInput PI;
     [SerializeField] RectTransform Crosshair;
+    [SerializeField] Image InfoImage, DropImage;
+    [SerializeField] Sprite[] Images; //0 is Pickup, 1 is Drop, 2 is use
     [SerializeField] Slider InteractMeter;
     [SerializeField] Text Text;
     [SerializeField] float CrosshairSpeed;
@@ -21,7 +23,6 @@ public class PlayerUI : MonoBehaviour
 
     void Update()
     {
-        Text.text = "";
         Vector2 TargetPos = ScreenCenter;
         Transform T = (PH.HeadRayDidHit) ? PH.HeadRayHit.transform : transform;
         bool IsItem = T.TryGetComponent(out Item I);
@@ -48,25 +49,25 @@ public class PlayerUI : MonoBehaviour
             InteractMeter.value = 0;
         }
 
+        DropImage.gameObject.SetActive(PH.IsEquipped);
+
         if (PH.HeadRayDidHit)
         {
-            string DisplayText = PH.HeadRayHit.transform.gameObject.name;
             if (IsItem)
             {
-                if (PH.IsEquipped)
-                    DisplayText += "\nInteract Key > Use";
-                else
-                    DisplayText += "\nPrimary Key > Pick Up\nSecondary Key > Use";
+                InfoImage.sprite = Images[0];
+                InfoImage.color = Color.white;
             }
             else if (IsUseable)
             {
-                if (PH.IsEquipped)
-                    DisplayText += "\nInteract Key > Use";
-                else
-                    DisplayText += "\nPrimary Key > Use\nSecondary Key > Alt Use";
+                InfoImage.sprite = Images[2];
+                InfoImage.color = Color.white;
             }
-
-            Text.text = DisplayText;
+        }
+        else
+        {
+            InfoImage.sprite = null;
+            InfoImage.color = new Color(0, 0, 0, 0);
         }
     }
 }

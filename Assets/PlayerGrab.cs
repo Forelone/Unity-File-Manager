@@ -53,6 +53,7 @@ public class PlayerGrab : MonoBehaviour
             {
                 //Grab it.
                 CurrentlyGrabbing = PH.HeadRayHit.transform.AddComponent<SpringJoint>();
+                CurrentlyGrabbing.anchor = PH.HeadRayHit.transform.InverseTransformPoint(PH.HeadRayHit.point);
                 CurrentlyGrabbing.connectedBody = HandToGrab;
                 SpringJoint SJ = CurrentlyGrabbing as SpringJoint;
                 SJ.spring = 100f;

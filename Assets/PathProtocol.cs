@@ -14,7 +14,7 @@ public class PathProtocol : MonoBehaviour
     [SerializeField] long SizeInBytes;
     [SerializeField] int FilesInside;
     [SerializeField] int DirsInside = 1;
-    [SerializeField] bool Debug = false;
+    [SerializeField] bool Debugg = false;
 
     [Header("Prefabs")]
     [SerializeField] GameObject GatePrefab;
@@ -29,7 +29,7 @@ public class PathProtocol : MonoBehaviour
 
     void Awake() //Debug
     {
-        if (Debug)
+        if (Debugg)
         SetupPath(Path);
     }
 
@@ -274,7 +274,11 @@ public class PathProtocol : MonoBehaviour
         {
             print($"File Already exists. Overwriting it.");
         }
-        File.WriteAllLines(SavePath, SaveStrings);
+        try {File.WriteAllLines(SavePath, SaveStrings);}
+        catch (System.Exception)
+        {
+            Debug.LogError("An Error Occurred during saving, you prolly need admin access for this one bro.", gameObject);
+        }
         StartCoroutine(ChildKillingFunction(transform));        
     }
     

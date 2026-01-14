@@ -24,7 +24,7 @@ public class PlayerInventory : MonoBehaviour
             if (Input.GetKey(KeyCode.Alpha0 + Key))
             {
                 PressedKey = Key;
-//                print(PressedKey);
+                print(PressedKey);
                 break;
             }
         }

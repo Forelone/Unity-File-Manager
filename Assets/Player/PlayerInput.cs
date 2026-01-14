@@ -24,12 +24,12 @@ public class PlayerInput : MonoBehaviour
 
     float VerRot = 0;
 
-    void Update()
+    void FixedUpdate()
     {
         float h = Input.GetAxis("Horizontal"), v = Input.GetAxis("Vertical");
         Movement = transform.forward * v + transform.right * h;
 
-        float X = Input.GetAxis("Mouse X") * HorizontalMul, Y = Input.GetAxis("Mouse Y") * VerticalMul;
+        float X = Input.GetAxis("Mouse X") * HorizontalMul * Time.deltaTime, Y = Input.GetAxis("Mouse Y") * VerticalMul * Time.deltaTime;
 
         VerRot -= Y;
         VerRot = Mathf.Clamp(VerRot, MinXRot, MaxXRot);        

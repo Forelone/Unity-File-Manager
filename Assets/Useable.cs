@@ -94,8 +94,9 @@ public class Useable : MonoBehaviour
         while (UseFloat < MaxUseFloat)
         {
             if (Debug) print("Primary: " + UseFloat + "/" + RequiredUseDelay);
-            if (UseFrameCheck) { UseFloat += Time.fixedDeltaTime; UseFrameCheck = false; }
-            else UseFloat -= Time.fixedDeltaTime;
+
+            if (UseFrameCheck) { UseFloat += Time.deltaTime; UseFrameCheck = false; }
+            else UseFloat -= Time.deltaTime;
 
             if (UseFloat > MaxUseFloat)
             {
@@ -109,8 +110,9 @@ public class Useable : MonoBehaviour
                 if (Debug) print("Use Fail");
                 break;
             }
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(Time.deltaTime * 2);
         }
+        UseFloat = 0;
         IsTrying = false;
     }
 
@@ -123,8 +125,9 @@ public class Useable : MonoBehaviour
         while (UseFloat < MaxUseFloat)
         {
             if (Debug) print("Alternative: " + UseFloat + "/" + RequiredAlternativeUseDelay);
-            if (UseAltFrameCheck) { UseFloat += 0.01f; UseAltFrameCheck = false; }
-            else UseFloat -= 0.01f;
+
+            if (UseAltFrameCheck) { UseFloat += Time.deltaTime; UseAltFrameCheck = false; }
+            else UseFloat -= Time.deltaTime;
 
             if (UseFloat > MaxUseFloat)
             {
@@ -138,8 +141,9 @@ public class Useable : MonoBehaviour
                 if (Debug) print("Alternate Fail");
                 break;
             }
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(Time.deltaTime * 2);
         }
+        UseFloat = 0;
         IsAlternativeTrying = false;
     }
 }
