@@ -218,6 +218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Grabber: {fileID: 356719345}
   MaxDistance: 5
+  Mul: 10
 --- !u!114 &1198086484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -497,7 +498,18 @@ TextMesh:
   m_Text: 'Manipulation Tool
 
 
-    LMB = Grab Object Aimed Towards'
+    LMB = Grab
+
+    RMB = Drop
+
+
+    Numpad 4,6,8,2
+    =
+
+    Rotate Left,Right,Up,Down
+
+
+    Numpad +,- = Further,Closer'
   m_OffsetZ: 0
   m_CharacterSize: 0.0001
   m_LineSpacing: 1
