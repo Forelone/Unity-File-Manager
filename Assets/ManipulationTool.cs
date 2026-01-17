@@ -13,7 +13,7 @@ public class ManipulationTool : MonoBehaviour
 
     float Dist;
 
-    void FixedUpdate()
+    void FixedUpdate() //TO DO: Make this work only when pressing LMB so we don't have to enable and disable this shit.
     {
         //Check if we already grabbing something.
         if (Grabbing == null)
@@ -52,14 +52,14 @@ public class ManipulationTool : MonoBehaviour
                 Vector3 HoldPoint = Conf.anchor;
                 Rigidbody RG = Conf.GetComponent<Rigidbody>();
                 Destroy(Conf);
-                RG.transform.RotateAround(RG.transform.position + HoldPoint,transform.up,Horizontal);
-                RG.transform.RotateAround(RG.transform.position + HoldPoint,transform.right,Vertical);
+                RG.transform.RotateAround(RG.transform.position + HoldPoint,transform.up,Horizontal * Mul);
+                RG.transform.RotateAround(RG.transform.position + HoldPoint,transform.right,Vertical * Mul);
                 GrabIt(RG,HoldPoint);
             }
 
             if (Linear != 0)
             {
-                Dist -= Time.fixedDeltaTime * Linear;
+                Dist -= Time.fixedDeltaTime * Linear * Mul;
                 Grabber.transform.position = transform.position + transform.forward * Dist;
             }
         }

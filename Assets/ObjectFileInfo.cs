@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class ObjectFileInfo : MonoBehaviour
 {
     [HideInInspector]
-    public string Name, Extension, Path;
+    public string Name, Extension, Path, DirPath;
     [HideInInspector]
     public long Size;
     [HideInInspector]
@@ -24,6 +25,35 @@ public class ObjectFileInfo : MonoBehaviour
         this.ModificationDate = ModificationDate;
         this.Path = Path;
         this.Protected = Protected;
+
+        string[] S = Path.Split('/');
+        S[S.Length - 1] = string.Empty;
+        DirPath = string.Join('/',S);
+
         SetupComplete = true;
+    }
+
+    public void Setup(FileInfo fileInfo)
+    {
+        if (SetupComplete) return;
+        this.Name = fileInfo.Name;
+        this.Extension = fileInfo.Extension;
+        this.Size = fileInfo.Length;
+        this.CreationDate = fileInfo.CreationTime;
+        this.ModificationDate = fileInfo.LastWriteTime;
+        this.Path = fileInfo.FullName;
+        this.Protected = fileInfo.IsReadOnly;
+
+        string[] S = Path.Split('/');
+        S[S.Length - 1] = string.Empty;
+        DirPath = string.Join('/',S);
+
+        SetupComplete = true;
+    }
+
+    public FileInfo ToFileInfo()
+    {
+        FileInfo FI = new FileInfo(Path);
+        return FI;
     }
 }

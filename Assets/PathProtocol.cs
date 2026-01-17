@@ -227,7 +227,7 @@ public class PathProtocol : MonoBehaviour
             Object.GetComponent<Rigidbody>();
             Object.SetParent(FileEntrances.transform);
 
-            Object.AddComponent<ObjectFileInfo>().Setup(File.Name, File.Extension, File.FullName, File.Length, File.CreationTime, File.LastWriteTime, File.IsReadOnly);
+            Object.AddComponent<ObjectFileInfo>().Setup(File);
         }
     }
 
