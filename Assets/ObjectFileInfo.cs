@@ -51,6 +51,25 @@ public class ObjectFileInfo : MonoBehaviour
         SetupComplete = true;
     }
 
+    public void Setup(ObjectFileInfo OFI)
+    {
+        if (SetupComplete) return;
+
+        this.Name = OFI.Name;
+        this.Extension = OFI.Extension;
+        this.Size = OFI.Size;
+        this.CreationDate = OFI.CreationDate;
+        this.ModificationDate = OFI.ModificationDate;
+        this.Path = OFI.Path;
+        this.Protected = OFI.Protected;
+
+        string[] S = Path.Split('/');
+        S[S.Length - 1] = string.Empty;
+        DirPath = string.Join('/',S);
+
+        SetupComplete = true;
+    }
+
     public FileInfo ToFileInfo()
     {
         FileInfo FI = new FileInfo(Path);

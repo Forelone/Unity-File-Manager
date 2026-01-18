@@ -123,11 +123,13 @@ MonoBehaviour:
   SizeInBytes: 0
   FilesInside: 0
   DirsInside: 0
-  Debug: 0
+  Debugg: 0
   GatePrefab: {fileID: 5128833936911146127, guid: fd5de819cb9a12f70b29db62eee3e1da, type: 3}
   FailPrefab: {fileID: 991579548695591784, guid: 1fad67c4838a2441ba0c8a5ceb03828b, type: 3}
   OtherPrefabs:
   - Extension: .png
+    Prefab: {fileID: 5220221798565065876, guid: 2a28a06bdc44ed4e6960f67d47419c27, type: 3}
+  - Extension: .jpeg
     Prefab: {fileID: 5220221798565065876, guid: 2a28a06bdc44ed4e6960f67d47419c27, type: 3}
   - Extension: .jpg
     Prefab: {fileID: 5220221798565065876, guid: 2a28a06bdc44ed4e6960f67d47419c27, type: 3}
@@ -153,8 +155,11 @@ MonoBehaviour:
     Prefab: {fileID: 139512919532505941, guid: e560baaedbfaa460787f5a680e7e5c2b, type: 3}
   - Extension: .ogv
     Prefab: {fileID: 139512919532505941, guid: e560baaedbfaa460787f5a680e7e5c2b, type: 3}
+  - Extension: .obj
+    Prefab: {fileID: 3146265430572738211, guid: 3a3636f6d20ab0a4c9d990e8891945ba, type: 3}
   MinFileScale: 5
   MinFolderScale: 2
+  BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &6793608521297116460
 GameObject:
   m_ObjectHideFlags: 0
