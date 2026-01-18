@@ -22,6 +22,9 @@ public class PathProtocol : MonoBehaviour
     [SerializeField] Extensions[] OtherPrefabs;
     public float MinFileScale = 3, MinFolderScale = 2;
 
+    [SerializeField] Color BackgroundColor;
+    Vector3 ColorBG;
+
     public string GetPath()
     {
         return $"{Path}";
@@ -31,6 +34,8 @@ public class PathProtocol : MonoBehaviour
     {
         if (Debugg)
         SetupPath(Path);
+
+        ColorBG = new Vector3(BackgroundColor.r,BackgroundColor.g,BackgroundColor.b);
     }
 
     public void SetupPath(string Path)
@@ -67,7 +72,7 @@ public class PathProtocol : MonoBehaviour
                 HasCustomizationFile = true;
                 CustomizationData = File.ReadAllLines(Path + ThisFile.Name).ToList();
             }
-            
+
             if (ThisFile.Length > BiggestFileSize)
                 BiggestFileSize = ThisFile.Length;
         }
@@ -82,18 +87,22 @@ public class PathProtocol : MonoBehaviour
         //End of gathering directory info
 
         Color BaseColor = Color.white;
+        Color BaseBG = Color.gray;
         Vector3 CustomBaseSize = Vector3.zero;
         if (HasCustomizationFile)
         {
             string[] Header = CustomizationData[0].Split("),(");
             var SizeVec = FileProtocol.Instance.StringToVector3(Header[0]);
             var ColorVec = FileProtocol.Instance.StringToVector3(Header[1]);
+            var ColorVec2 = FileProtocol.Instance.StringToVector3(Header[2]);
+            ColorBG = ColorVec2;
             BaseColor = new Color(ColorVec.x, ColorVec.y, ColorVec.z);
+            BaseBG = new Color(ColorVec2.x, ColorVec2.y, ColorVec2.z);
             GetComponent<Renderer>().material.color = BaseColor;
             CustomBaseSize = SizeVec;
         }
 
-            if (FilesInside == 0) MinFileScale = MinFolderScale;
+        if (FilesInside == 0) MinFileScale = MinFolderScale;
         int FakeDirsInside = (DirsInside == 0) ? FilesInside : DirsInside; //Act like you have a lot of files so player can walk peacefully.
         int FakeFilesInside = (FilesInside == 0) ? DirsInside : FilesInside; //You get the drill.
 
@@ -101,27 +110,27 @@ public class PathProtocol : MonoBehaviour
                 EndScale = (!HasCustomizationFile) ? Vector3.up * 100
                 + (Vector3.right * Mathf.Clamp(FakeFilesInside * MinFileScale, MinFileScale, Mathf.Infinity)
                 + Vector3.forward * Mathf.Clamp(FakeDirsInside * MinFolderScale, MinFolderScale, Mathf.Infinity)) : CustomBaseSize;
-                
+
         for (int F = 0; F < 100; F++)
         {
             transform.localScale = Vector3.Lerp(StartScale, EndScale, F / 100f); //Be sure to add 'f' to near static intreger numbers for no accidents.
             yield return new WaitForEndOfFrame();
         }
-
+        transform.localScale = EndScale;
         //End of animation
 
         List<Vector3> GatePos = new List<Vector3>();
         List<Quaternion> GateRot = new List<Quaternion>();
 
-        float DoorSizer = (!HasCustomizationFile) ? Mathf.Clamp(FakeDirsInside,1,Mathf.Infinity) * MinFolderScale / 2 : CustomBaseSize.z / 2;
+        float DoorSizer = (!HasCustomizationFile) ? Mathf.Clamp(FakeDirsInside, 1, Mathf.Infinity) * MinFolderScale / 2 : CustomBaseSize.z / 2;
         float FileSizer = (!HasCustomizationFile) ? Mathf.Clamp(FakeFilesInside, 1, Mathf.Infinity) * MinFileScale / 2 : CustomBaseSize.x / 2;
         float UpSizer = (!HasCustomizationFile) ? 50 : CustomBaseSize.y / 2;
         Vector3 LeftStart = transform.position - transform.right * FileSizer - transform.forward * DoorSizer + transform.up * UpSizer,
-                LeftEnd = transform.position - transform.right * FileSizer + transform.forward * DoorSizer+ transform.up * UpSizer,
+                LeftEnd = transform.position - transform.right * FileSizer + transform.forward * DoorSizer + transform.up * UpSizer,
                 ForwardStart = LeftEnd,
-                ForwardEnd = transform.position + transform.right * FileSizer + transform.forward * DoorSizer+ transform.up * UpSizer,
+                ForwardEnd = transform.position + transform.right * FileSizer + transform.forward * DoorSizer + transform.up * UpSizer,
                 RightStart = ForwardEnd,
-                RightEnd = transform.position + transform.right * FileSizer - transform.forward * DoorSizer+ transform.up * UpSizer;
+                RightEnd = transform.position + transform.right * FileSizer - transform.forward * DoorSizer + transform.up * UpSizer;
 
         int DirLeft = DirsInside;
         if (DirsInside <= 3)
@@ -188,7 +197,7 @@ public class PathProtocol : MonoBehaviour
         GameObject FileEntrances = new GameObject("Files");
         FileEntrances.transform.SetParent(transform);
 
-        Vector3 SpawnPos = transform.position + transform.up * 50 + transform.forward * Random.Range(-1,1f) + transform.right * Random.Range(-1,1f);
+        Vector3 SpawnPos = transform.position + transform.up * 50 + transform.forward * Random.Range(-1, 1f) + transform.right * Random.Range(-1, 1f);
         GameObject[] FileObjects = new GameObject[Files.Length];
         foreach (var File in Files)
         {
@@ -211,15 +220,17 @@ public class PathProtocol : MonoBehaviour
                 Object.SetPositionAndRotation(SpawnPos, transform.rotation);
             }
 
+            FileProtocol Fap = FileProtocol.Instance;
             var FoundYa = CustomizationData.Find(X => X.Split(" , ")[0] == File.Name);
             if (FoundYa != null)
             {
-                FileProtocol Fap = FileProtocol.Instance;
                 string[] Values = FoundYa.Split(" , ");
                 Vector3 Position = Fap.StringToVector3(Values[1]);
                 Quaternion Rotation = Quaternion.Euler(Fap.StringToVector3(Values[2]));
                 Object.SetPositionAndRotation(Position, Rotation);
                 Object.GetComponent<Renderer>().material.color = Fap.StringToColor3(Values[3]);
+                Vector3 Size = Fap.StringToVector3(Values[4]);
+                Object.transform.localScale = Size;
             }
 
             Object.AddComponent<Item>();
@@ -228,6 +239,7 @@ public class PathProtocol : MonoBehaviour
             Object.SetParent(FileEntrances.transform);
 
             Object.AddComponent<ObjectFileInfo>().Setup(File);
+            yield return new WaitForEndOfFrame();
         }
     }
 
@@ -247,7 +259,7 @@ public class PathProtocol : MonoBehaviour
         List<string> SaveStrings = new List<string>();
         Color Col = GetComponent<Renderer>().material.color;
         Vector3 VecCol = new Vector3(Col.r, Col.g, Col.b);
-        SaveStrings.Add($"{transform.localScale.ToString()},{VecCol.ToString()}");
+        SaveStrings.Add($"{transform.localScale},{VecCol},{ColorBG}");
         Transform FileTransform = transform.Find("Files");
         for (int i = FileTransform.childCount; i > 0; i--)
         {
@@ -257,7 +269,8 @@ public class PathProtocol : MonoBehaviour
             Vector3 col = new Vector3(color.r, color.g, color.b);
             Vector3 pos = Obj.position;
             Vector3 rot = Obj.eulerAngles;
-            string LifeString = $"{Obj.gameObject.name} , {pos.ToString()} , {rot.ToString()} , {col.ToString()}";
+            Vector3 size = Obj.localScale;
+            string LifeString = $"{Obj.gameObject.name} , {pos} , {rot} , {col} , {size}";
             //Why not just read like buffers? 
             // coz i like strings. 
             // they're readable by humans
