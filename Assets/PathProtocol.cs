@@ -231,11 +231,14 @@ public class PathProtocol : MonoBehaviour
                 Object.GetComponent<Renderer>().material.color = Fap.StringToColor3(Values[3]);
                 Vector3 Size = Fap.StringToVector3(Values[4]);
                 Object.transform.localScale = Size;
+
+                string PathToModel = Values[5];
+                if (PathToModel != "") Object.AddComponent<ModelFile>().OverrideModel(PathToModel);
             }
 
             Object.AddComponent<Item>();
             Object.gameObject.name = File.Name;
-            Object.GetComponent<Rigidbody>();
+            Object.GetComponent<Rigidbody>(); //Huh?
             Object.SetParent(FileEntrances.transform);
 
             Object.AddComponent<ObjectFileInfo>().Setup(File);
@@ -270,7 +273,8 @@ public class PathProtocol : MonoBehaviour
             Vector3 pos = Obj.position;
             Vector3 rot = Obj.eulerAngles;
             Vector3 size = Obj.localScale;
-            string LifeString = $"{Obj.gameObject.name} , {pos} , {rot} , {col} , {size}";
+            string model = Obj.TryGetComponent(out ModelFile MF) ? MF.GetPath() : string.Empty;
+            string LifeString = $"{Obj.gameObject.name} , {pos} , {rot} , {col} , {size} , {model}";
             //Why not just read like buffers? 
             // coz i like strings. 
             // they're readable by humans

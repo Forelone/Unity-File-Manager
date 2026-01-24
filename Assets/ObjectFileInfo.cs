@@ -33,6 +33,27 @@ public class ObjectFileInfo : MonoBehaviour
         SetupComplete = true;
     }
 
+    public void Setup(string Path)
+    {
+        if (SetupComplete) return;
+
+        FileInfo fileInfo = new FileInfo(Path);
+
+        this.Name = fileInfo.Name;
+        this.Extension = fileInfo.Extension;
+        this.Size = fileInfo.Length;
+        this.CreationDate = fileInfo.CreationTime;
+        this.ModificationDate = fileInfo.LastWriteTime;
+        this.Path = fileInfo.FullName;
+        this.Protected = fileInfo.IsReadOnly;
+
+        string[] S = Path.Split('/');
+        S[S.Length - 1] = string.Empty;
+        DirPath = string.Join('/',S);
+
+        SetupComplete = true;
+    }
+
     public void Setup(FileInfo fileInfo)
     {
         if (SetupComplete) return;

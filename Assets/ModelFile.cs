@@ -6,23 +6,40 @@ using UnityEngine;
 
 public class ModelFile : MonoBehaviour
 {
-    IEnumerator Start()
+    string CustomPath = "";
+    Coroutine DefaultRoutine;
+    void Start()
     {
+        DefaultRoutine = StartCoroutine(CreateObject(""));
+    }
+
+    public string GetPath()
+    {
+        return CustomPath;
+    }
+
+    IEnumerator CreateObject(string Path)
+    {
+        bool IsCustomPath = CustomPath != "";
         ObjectFileInfo OFI = null;
-        yield return new WaitUntil(() => TryGetComponent(out OFI));
+        yield return new WaitUntil(() => IsCustomPath || TryGetComponent(out OFI));
 
-        GameObject GObj = new OBJLoader().Load(OFI.Path);
-        Transform ModelGObj = GObj.transform.GetChild(0);
-        ModelGObj.SetPositionAndRotation(transform.position,transform.rotation);
-        ModelGObj.SetParent(transform.parent);
-        ModelGObj.name = transform.name;
-        ModelGObj.AddComponent<Rigidbody>();
-        ModelGObj.AddComponent<MeshCollider>().convex = true;
-        ModelGObj.GetComponent<Renderer>().material = new Material(Shader.Find("Unlit/Color"));
-        ModelGObj.AddComponent<ObjectFileInfo>().Setup(OFI);
-        ModelGObj.AddComponent<Item>();
+        GameObject GObj = new OBJLoader().Load(IsCustomPath ? CustomPath : OFI.Path);
+        Transform ModelT = GObj.transform.GetChild(0);
 
-        Destroy(gameObject);
+        Mesh mesh = ModelT.GetComponent<MeshFilter>().sharedMesh;
+
+        transform.GetOrAddComponent<MeshFilter>().sharedMesh = mesh;
+        if (transform.TryGetComponent(out Collider Col)) Destroy(Col);
+        transform.AddComponent<BoxCollider>();
+        Destroy(ModelT.gameObject);
         Destroy(GObj);
+    }
+
+    public void OverrideModel(string PathToModel)
+    {
+        if (DefaultRoutine != null) StopCoroutine(DefaultRoutine);
+        CustomPath = PathToModel;
+        DefaultRoutine = StartCoroutine(CreateObject(PathToModel));
     }
 }

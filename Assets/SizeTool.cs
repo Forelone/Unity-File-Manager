@@ -83,7 +83,7 @@ public class SizeTool : MonoBehaviour
                 yield return new WaitUntil(() => Input.anyKey);
             }
             yield return new WaitUntil(() => !Input.GetKey(KeyCode.KeypadEnter));
-            if (!float.TryParse(YStr,out Z)) { ClearText(); continue;}
+            if (!float.TryParse(ZStr,out Z)) { ClearText(); continue;}
             else {
                 ApplySize = new Vector3(X,Y,Z); 
                 break;
