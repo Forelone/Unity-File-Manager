@@ -6,6 +6,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Profiling;
+using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 public class PathProtocol : MonoBehaviour
@@ -95,7 +96,8 @@ public class PathProtocol : MonoBehaviour
             var SizeVec = FileProtocol.Instance.StringToVector3(Header[0]);
             var ColorVec = FileProtocol.Instance.StringToVector3(Header[1]);
             var ColorVec2 = FileProtocol.Instance.StringToVector3(Header[2]);
-            ColorBG = ColorVec2;
+            BackgroundColor = new Color(ColorVec2.x, ColorVec2.y, ColorVec2.z);
+            ColorBG = ColorVec2 * 255;
             BaseColor = new Color(ColorVec.x, ColorVec.y, ColorVec.z);
             BaseBG = new Color(ColorVec2.x, ColorVec2.y, ColorVec2.z);
             GetComponent<Renderer>().material.color = BaseColor;
@@ -354,6 +356,14 @@ public class PathProtocol : MonoBehaviour
         DestroyTimer = Random.Range(5, 10f);
         Destroy(gameObject, DestroyTimer);
     }
+
+    public void SetBGColor(Color applyColor)
+    {
+        BackgroundColor = applyColor;
+                ColorBG = new Vector3(BackgroundColor.r,BackgroundColor.g,BackgroundColor.b);
+    }
+
+    public Color GetBGColor() { return BackgroundColor; }
 
     [Serializable]
     public class Extensions

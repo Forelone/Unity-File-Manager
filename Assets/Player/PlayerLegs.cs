@@ -11,6 +11,12 @@ public class PlayerLegs : MonoBehaviour
     [SerializeField] float Angle = 45;
     float Sin, S;
 
+    Camera Eyes;
+    void Awake()
+    {
+        Eyes = GetComponentInChildren<Camera>();
+    }
+
     void FixedUpdate()
     {
         var Speed = Mathf.Abs(RG.velocity.magnitude + RG.angularVelocity.magnitude);
@@ -28,6 +34,12 @@ public class PlayerLegs : MonoBehaviour
         LeftPelvis.localRotation = Quaternion.Euler(Vector3.right * (90 - S * Angle) + Vector3.forward * 90);
         RDownLeg.localRotation = Quaternion.Euler(Vector3.right * (+S * Angle));
         LDownLeg.localRotation = Quaternion.Euler(Vector3.right * (-S * Angle));
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position,-transform.up,out hit,2) && hit.transform.TryGetComponent(out PathProtocol PeePee))
+        {
+            Eyes.backgroundColor = PeePee.GetBGColor();
+        }
     }
 
     void OnDisable()
