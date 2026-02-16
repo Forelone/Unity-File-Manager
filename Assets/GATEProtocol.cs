@@ -6,6 +6,7 @@ public class GATEProtocol : MonoBehaviour
 {
     PathProtocol Peepee;
     [SerializeField] TextMesh TM;
+    bool IsOpen;
     string GatePath = "";
     void Start()
     {
@@ -17,6 +18,19 @@ public class GATEProtocol : MonoBehaviour
 
     public PathProtocol GivePeepee() //*WHEEZE*
     { return Peepee; }
+
+    public void GateToggle()
+    {
+        if (!IsOpen)
+            Peepee.RequestPathOpen(GatePath, this);
+        else
+            Peepee.RequestPathClose(GatePath, this);
+        if (TryGetComponent(out Animator Anim))
+        {
+            Anim.Play(IsOpen ? "DoorClose" : "DoorOpen");
+        }
+        IsOpen = !IsOpen;
+    }
 
     public void GateOpen()
     {

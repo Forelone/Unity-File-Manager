@@ -21,7 +21,7 @@ public class PlayerUI : MonoBehaviour
         ScreenCenter = new Vector2(Screen.width / 2, Screen.height / 2);
     }
 
-    void Update()
+    /*void Update()
     {
         Vector2 TargetPos = ScreenCenter;
         Transform T = (PH.HeadRayDidHit) ? PH.HeadRayHit.transform : transform;
@@ -69,5 +69,5 @@ public class PlayerUI : MonoBehaviour
             InfoImage.sprite = null;
             InfoImage.color = new Color(0, 0, 0, 0);
         }
-    }
+    }*/
 }

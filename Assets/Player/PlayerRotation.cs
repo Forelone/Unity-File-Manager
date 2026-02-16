@@ -5,16 +5,21 @@ using UnityEngine;
 public class PlayerRotation : MonoBehaviour
 {
     [SerializeField] Transform Neck;
-    [SerializeField] PlayerInput PInput;
-
-
-
-
-    void FixedUpdate()
+    void Start()
     {
-        Vector2 DesiredAngle = PInput.DesiredRotation;
-        
-        Neck.localRotation = Quaternion.Euler(Vector3.right * DesiredAngle.x);
-        transform.Rotate(transform.up * DesiredAngle.y);
+        PlayerInput playerInput = GetComponent<PlayerInput>();
+
+        playerInput.OnMouseMovement += HandleRotation;
+    }
+
+    [SerializeField] float MinY = -80, MaxY = 80;
+
+    float NeckRot = 0f;
+    void HandleRotation(Vector2 NewRotation)
+    {
+        NeckRot = Mathf.Clamp(NeckRot - NewRotation.y,MinY,MaxY);
+
+        Neck.localRotation = Quaternion.AngleAxis(NeckRot, Vector3.right);
+        transform.Rotate(transform.up * NewRotation.x);
     }
 }

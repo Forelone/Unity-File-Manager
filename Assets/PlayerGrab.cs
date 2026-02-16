@@ -22,9 +22,9 @@ public class PlayerGrab : MonoBehaviour
         DefaultRot = ArmToAim.localRotation;
     }
 
-    void FixedUpdate()
+    /*void FixedUpdate()
     {
-        bool GrabAveiwable /*Huh*/ = PH.HeadRayDidHit && PH.HeadRayHit.rigidbody && CurrentlyGrabbing == null;
+        bool GrabAveiwable /*Huh*/ /*= PH.HeadRayDidHit && PH.HeadRayHit.rigidbody && CurrentlyGrabbing == null;
         bool IsGrabbing = CurrentlyGrabbing != null;
 
         Quaternion RDesired = Quaternion.Euler(Vector3.zero);
@@ -63,5 +63,5 @@ public class PlayerGrab : MonoBehaviour
         {
             Destroy(CurrentlyGrabbing);
         }
-    }
+    }*/
 }

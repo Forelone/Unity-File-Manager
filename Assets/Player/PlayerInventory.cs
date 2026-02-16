@@ -7,7 +7,7 @@ using UnityEngine;
 // You can disable or delete this from your Scripts and use the rest like normal.
 public class PlayerInventory : MonoBehaviour
 {
-    [SerializeField] List<Item> Inventory;
+   [SerializeField] List<Item> Inventory;
     [SerializeField] Animation RightArmAnim;
 
     [SerializeField] PlayerHands PHands;
@@ -24,16 +24,16 @@ public class PlayerInventory : MonoBehaviour
             if (Input.GetKey(KeyCode.Alpha0 + Key))
             {
                 PressedKey = Key;
-//                print(PressedKey);
+                print(PressedKey);
                 break;
             }
         }
 
-        if (PHands.IsEquipped && PressedKey != -1) //Haul equipped item to inventory
+        if (PHands.IsHandFull && PressedKey != -1) //Haul equipped item to inventory
         {
             StartCoroutine(HaulToInv(PressedKey));
         }
-        else if (!PHands.IsEquipped && PressedKey != -1) //Equip hauled item to right hand.
+        else if (!PHands.IsHandFull && PressedKey != -1) //Equip hauled item to right hand.
         {
             StartCoroutine(EquipToHand(PressedKey));
         }
@@ -49,7 +49,7 @@ public class PlayerInventory : MonoBehaviour
         {
             if (!HauledIt && RightArmAnim["PlyHaul"].time > 0.5f)
             {
-                Item Haul = PHands.EquippedItem;
+                Item Haul = PHands.ItemOnHand;
                 Haul.gameObject.SetActive(false);
 
                 if (Inventory[Index] != null)
@@ -59,7 +59,7 @@ public class PlayerInventory : MonoBehaviour
                     Drop.transform.SetPositionAndRotation(transform.position + transform.forward + transform.up, transform.rotation);
                 }
 
-                PHands.HandDrop(); //Allows player to instantly drop item without animation.
+                PHands.DropHandItem(); //Allows player to instantly drop item without animation.
                 Inventory[Index] = Haul;
 
                 HauledIt = true;
@@ -84,7 +84,7 @@ public class PlayerInventory : MonoBehaviour
                     Item Equip = Inventory[Index];
                     Equip.gameObject.SetActive(true);
                     Inventory[Index] = null;
-                    PHands.HandEquip(Equip);
+                    PHands.PickupItem(Equip);
                 }
 
                 EquippedIt = true;

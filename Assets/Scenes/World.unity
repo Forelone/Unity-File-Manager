@@ -606,6 +606,11 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!111 &387493873 stripped
+Animation:
+  m_CorrespondingSourceObject: {fileID: 4002200361811342808, guid: 2e1043d9d4c6b68b8bc690e654b11942, type: 3}
+  m_PrefabInstance: {fileID: 1956990711}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &392770984
 GameObject:
   m_ObjectHideFlags: 0
@@ -701,7 +706,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1368ea8ea7009967b0a79d65593e7d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Pickup_Delay: 1
+  Col: {fileID: 0}
 --- !u!54 &392770988
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -914,7 +919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1368ea8ea7009967b0a79d65593e7d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Pickup_Delay: 1
+  Col: {fileID: 0}
 --- !u!54 &467660038
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1266,7 +1271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1368ea8ea7009967b0a79d65593e7d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Pickup_Delay: 1
+  Col: {fileID: 0}
 --- !u!54 &1141104658
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1479,7 +1484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1368ea8ea7009967b0a79d65593e7d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Pickup_Delay: 1
+  Col: {fileID: 0}
 --- !u!54 &1198086486
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1690,7 +1695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1368ea8ea7009967b0a79d65593e7d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Pickup_Delay: 1
+  Col: {fileID: 0}
 --- !u!54 &1622889112
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2232,6 +2237,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5392951358075226136, guid: 2e1043d9d4c6b68b8bc690e654b11942, type: 3}
+      propertyPath: PHands
+      value: 
+      objectReference: {fileID: 1956990724}
+    - target: {fileID: 5392951358075226136, guid: 2e1043d9d4c6b68b8bc690e654b11942, type: 3}
+      propertyPath: RightArmAnim
+      value: 
+      objectReference: {fileID: 387493873}
     - target: {fileID: 6569567700196252904, guid: 2e1043d9d4c6b68b8bc690e654b11942, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.48311764
@@ -2300,6 +2313,10 @@ PrefabInstance:
       propertyPath: PI
       value: 
       objectReference: {fileID: 1956990714}
+    - target: {fileID: 8569132736193107390, guid: 2e1043d9d4c6b68b8bc690e654b11942, type: 3}
+      propertyPath: Gravity
+      value: -1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3386724690625638471, guid: 2e1043d9d4c6b68b8bc690e654b11942, type: 3}
     - {fileID: 5973624579492041922, guid: 2e1043d9d4c6b68b8bc690e654b11942, type: 3}
@@ -2377,6 +2394,17 @@ CapsuleCollider:
   m_Height: 2.6447916
   m_Direction: 1
   m_Center: {x: 0, y: 0.22635579, z: 0}
+--- !u!114 &1956990724 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7058320983379530502, guid: 2e1043d9d4c6b68b8bc690e654b11942, type: 3}
+  m_PrefabInstance: {fileID: 1956990711}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1956990715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1b6f003603b4cb1a9bb9b1cf7efc39f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2117769832
 GameObject:
   m_ObjectHideFlags: 0
@@ -2475,7 +2503,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1368ea8ea7009967b0a79d65593e7d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Pickup_Delay: 1
+  Col: {fileID: 0}
 --- !u!54 &2117769836
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2993,7 +3021,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1368ea8ea7009967b0a79d65593e7d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Pickup_Delay: 1
+  Col: {fileID: 0}
 --- !u!54 &4307962787873211559
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3171,7 +3199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1368ea8ea7009967b0a79d65593e7d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Pickup_Delay: 1
+  Col: {fileID: 0}
 --- !u!54 &6503267496999784253
 Rigidbody:
   m_ObjectHideFlags: 0

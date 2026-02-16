@@ -1,21 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    [SerializeField] float Pickup_Delay = 1f;
-    public float PickupDelay { get { return Pickup_Delay; } }
-
     Useable Use;
     Rigidbody RG;
-    Collider Col;
+    [SerializeField] Collider Col; //This Collider is for Grabbing. If not specified first one will be grabbed. Creatures will grab item from center of this collider
     Collider[] Cols;
 
     void Awake()
     {
         RG = GetComponent<Rigidbody>();
-        Col = GetComponent<Collider>();
+        Col = Col == null ? GetComponent<Collider>() : Col;
         Cols = GetComponents<Collider>(); //Yes.
         Use = GetComponent<Useable>();
 
@@ -36,6 +34,12 @@ public class Item : MonoBehaviour
 
         Use.Use_Alternative();
     }
+
+    public event Action OnDrop;
+    public event Action OnEquip;
+
+    public void Equip() => OnEquip?.Invoke();
+    public void Drop() => OnDrop?.Invoke();
 
     public Rigidbody RigidBody_ { get { return RG; } }
     public Collider Collider_ { get { return Col; } }

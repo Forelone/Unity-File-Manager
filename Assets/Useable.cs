@@ -40,7 +40,7 @@ public class Useable : MonoBehaviour
     {
         if (CanAlternateUse)
         {
-            if (RequiredAlternativeUseDelay == 0)
+            if (RequiredUseDelay == 0)
             {
                 AlternateUse.Invoke();
                 if (AlternativeDelayAfterUse > 0) StartCoroutine(Use_AlternativeDelayHandle());

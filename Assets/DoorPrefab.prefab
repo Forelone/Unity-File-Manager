@@ -389,60 +389,24 @@ MonoBehaviour:
   Use:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5726515410022553869}
-        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
-        m_MethodName: Play
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: DoorOpen
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 4247996507439877896}
         m_TargetAssemblyTypeName: GATEProtocol, Assembly-CSharp
-        m_MethodName: GateOpen
+        m_MethodName: GateToggle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: DoorOpen
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
   AlternateUse:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5726515410022553869}
-        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
-        m_MethodName: Play
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: DoorClose
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 4247996507439877896}
-        m_TargetAssemblyTypeName: GATEProtocol, Assembly-CSharp
-        m_MethodName: GateClose
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: DoorClose
-          m_BoolArgument: 0
-        m_CallState: 2
-  RequiredUseDelay: 0.5
-  RequiredAlternativeUseDelay: 0.5
-  DelayAfterUse: 0
+      m_Calls: []
+  RequiredUseDelay: 0
+  RequiredAlternativeUseDelay: 0
+  DelayAfterUse: 1
   AlternativeDelayAfterUse: 0
   Debug: 0
 --- !u!1 &5464440206470198237
