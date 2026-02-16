@@ -2564,6 +2564,10 @@ PrefabInstance:
       value: 103.857
       objectReference: {fileID: 0}
     - target: {fileID: 7058320983379530502, guid: 2e1043d9d4c6b68b8bc690e654b11942, type: 3}
+      propertyPath: EyeDist
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7058320983379530502, guid: 2e1043d9d4c6b68b8bc690e654b11942, type: 3}
       propertyPath: HandInteractLayer.m_Bits
       value: 55
       objectReference: {fileID: 0}

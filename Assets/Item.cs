@@ -9,16 +9,18 @@ public class Item : MonoBehaviour
     Rigidbody RG;
     [SerializeField] Collider Col; //This Collider is for Grabbing. If not specified first one will be grabbed. Creatures will grab item from center of this collider
     Collider[] Cols;
+    [SerializeField] bool SuppressColliderWarning = false,SuppressRigidbodyWarning = false;
 
     void Awake()
     {
         RG = GetComponent<Rigidbody>();
         Col = Col == null ? GetComponent<Collider>() : Col;
+        Col = Col == null ? GetComponentInChildren<Collider>() : Col;
         Cols = GetComponents<Collider>(); //Yes.
         Use = GetComponent<Useable>();
 
-        if (RG == null) Debug.LogError("Rigidbody not found on Item! If you're making a button, just use Useable script.", this.gameObject);
-        if (Col == null) Debug.LogError("Collider not found on Item! Kill yourself!", this.gameObject);
+        if (RG == null && !SuppressRigidbodyWarning) Debug.LogError("Rigidbody not found on Item! If you're making a button, just use Useable script.", this.gameObject);
+        if (Col == null && !SuppressColliderWarning) Debug.LogError("Collider not found on Item! Kill yourself!", this.gameObject);
     }
 
     public void PrimaryUse()

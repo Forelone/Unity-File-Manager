@@ -238,7 +238,7 @@ public class PathProtocol : MonoBehaviour
                 if (PathToModel != "") Object.AddComponent<ModelFile>().OverrideModel(PathToModel);
             }
 
-            Object.AddComponent<Item>();
+            Object.GetOrAddComponent<Item>();
             Object.gameObject.name = File.Name;
             Object.GetComponent<Rigidbody>(); //Huh?
             Object.SetParent(FileEntrances.transform);

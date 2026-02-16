@@ -1,43 +1,63 @@
+using System.Collections;
 using System.IO;
 using UnityEngine;
 
 public class ImageHandler : MonoBehaviour
 {
-    PathProtocol PP;
-    public void SetPeePee(PathProtocol P) => PP = P;
+    ObjectFileInfo OFI;
+    Renderer ImageRen;
+
+    bool Ready = false, Want = false;
+
+    string PathToFile = string.Empty;
 
     public void Toggle()
     {
         enabled = !enabled;
     }
 
-    void OnEnable()
+    public void Start() => StartCoroutine(GetPath());
+
+    IEnumerator GetPath()
     {
-        PP = transform.parent.GetComponentInParent<PathProtocol>();
-        if (PP == null) Debug.LogError("Can't find my peenie :/", gameObject);
-        //First we get full path
-        string Name = gameObject.transform.name;
-        string FullPath = PP.GetPath() + Name;
-        print(FullPath);
-        //Then we check if we can convert it
-        byte[] FileData = File.ReadAllBytes(FullPath);
+        print("Start!");
+        ImageRen = transform.GetChild(0).GetComponent<Renderer>();
+        while (PathToFile == string.Empty)
+        {
+            if (TryGetComponent(out OFI))
+            { 
+                PathToFile = OFI.Path;
+                Ready = true;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+
+        if (Want) DisplayPicture();
+    }
+
+    void DisplayPicture()
+    {
+        if (PathToFile == string.Empty) { Debug.LogError("Path is empty!"); Want = true; return; }
+
+        byte[] FileData = File.ReadAllBytes(PathToFile);
         Texture2D Texture = new Texture2D(2, 2);
         bool SuccessfullyLoadedData = Texture.LoadImage(FileData);
-        //Then we create material with this image (or not)
         if (SuccessfullyLoadedData)
         {
-        transform.GetComponentInChildren<Renderer>().material.mainTexture = Texture;
+        ImageRen.material.mainTexture = Texture;
         int W = Mathf.Clamp(Texture.width / 100, 1, 4), H = Mathf.Clamp(Texture.height / 100, 1, 4);
-        //???
         transform.localScale = new Vector3(W, 0.03f, H);
-        //Profit!!!
         }
         else
         Debug.LogError("Something went wrong while trying to load this Image.");
     }
 
-    void OnDisable()
+    void ErasePicture()
     {
-        Destroy(transform.GetComponentInChildren<Renderer>().material.mainTexture);
+        Destroy(ImageRen.material.mainTexture);
     }
+
+    void OnEnable() => DisplayPicture();
+
+    void OnDisable() => ErasePicture();
 }
