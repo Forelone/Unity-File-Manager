@@ -7,11 +7,13 @@ public class PlayerArms : MonoBehaviour
     [SerializeField] Transform LeftArm,RightArm,Head;
     PlayerHands PHands;
     CharacterController CC;
+    Camera Eye;
 
     void Start()
     {
         PHands = GetComponent<PlayerHands>();
         CC = GetComponent<CharacterController>();
+        Eye = GetComponentInChildren<Camera>();
     }
 
     void FixedUpdate()
@@ -23,11 +25,15 @@ public class PlayerArms : MonoBehaviour
         Vector3 ODirection = -transform.up;
         if (PHands.IsHandFull)
         {
-            Direction = PHands.Inspecting ? Head.forward - Head.right * 0.5f + Head.up * 0.5f : Head.forward;
+            Ray CamRay = Eye.ScreenPointToRay(Input.mousePosition);
+            Direction = PHands.Inspecting && !PHands.IsOHandFull ? CamRay.direction : Head.forward;
         }
-        else if (Vel > 1)
+        else
         {
+            if (Vel > 1)
             Direction = -CC.velocity.normalized;
+            else
+            Direction = -Vector3.up; 
         }
 
         
@@ -42,7 +48,7 @@ public class PlayerArms : MonoBehaviour
             if (Vel > 1)
             ODirection = -CC.velocity.normalized;
             else
-            ODirection = -transform.up;   
+            ODirection = -Vector3.up;   
         }
 
         Vector3 Lerp = Vector3.Lerp(MainArm.forward,Direction,0.1f);

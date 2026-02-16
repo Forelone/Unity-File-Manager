@@ -88,42 +88,40 @@ public class PlayerInput : MonoBehaviour
     }
 
     public bool IsPlayerLefty { get {return PlayerPrefs.GetInt("Lefty") > 0; }}
-    Vector2 PastRotation = Vector2.zero;
-    Vector3 PastMovement = Vector3.zero;
     void FixedUpdate()
     {
         float PressShift = Input.GetAxisRaw("Sprint");
         float h = Input.GetAxisRaw("Horizontal"), v = Input.GetAxisRaw("Vertical"), u = Input.GetAxisRaw("Jump") == 1 ? 1 : 0;
-        Movement = new Vector3(h,u,v);
-        Movement *= PressShift == 1 ? 2 : 1;
-        if (Movement != PastMovement) OnMovement.Invoke(Movement); 
-        PastMovement = Movement;
+        h *= PressShift == 1 ? 2 : 1;
+        v *= PressShift == 1 ? 2 : 1;
+        DesiredMovement = new Vector3(h,u,v);
     }
+
+    [SerializeField] bool InspectButtonUnlocksMouse = true;
 
     void Update() //Much, Much better.
     {
         float X = Input.GetAxis("Mouse X"), Y = Input.GetAxis("Mouse Y");
-        Rotation = new Vector2(X,Y);
-        if (Rotation != PastRotation) OnMouseMovement.Invoke(Rotation);
-        PastRotation = Rotation;
+
+        DesiredRotation = new Vector2(X,Y);
         
-        M1 = Input.GetAxisRaw("Fire1") == 1;
-        if (PrimaryHandUse) OnPrimaryClick.Invoke();
+        var I1 = Input.GetAxisRaw("Fire1") == 1;
+        if (I1 != PrimaryHandUse) PrimaryHandUse = I1;
 
-        M2 = Input.GetAxisRaw("Fire2") == 1;
-        if (SecondaryHandUse) OnSecondaryClick.Invoke();
+        var I2 = Input.GetAxisRaw("Fire2") == 1;
+        if (I2 != SecondaryHandUse) SecondaryHandUse = I2;  
 
-        M3 = Input.GetAxisRaw("Interact") == 1;
-        if (InteractiveUse) OnInteractClick.Invoke();
-        
-        M4 = Input.GetAxisRaw("Drop") == 1;
-        if (Refuse) OnRefuseClick.Invoke();
-    
-        M5 = Input.GetAxisRaw("Inspect") == 1;
-        if (Inspect) OnInspectClick.Invoke();
+        var I3 = Input.GetAxisRaw("Interact") == 1;
+        if (I3 != InteractiveUse) InteractiveUse = I3;
 
-        Cursor.lockState = Inspect ? CursorLockMode.Confined : CursorLockMode.Locked;
-        Cursor.visible = Inspect;
+        var I4 = Input.GetAxisRaw("Drop") == 1;
+        if (I4 != Refuse) Refuse = I4;
+
+        var I5 = Input.GetAxisRaw("Inspect") == 1;
+        if (I5 != Inspect) Inspect = I5;
+
+        Cursor.lockState = Inspect && InspectButtonUnlocksMouse ? CursorLockMode.Confined : CursorLockMode.Locked;
+        Cursor.visible = Inspect && InspectButtonUnlocksMouse;
     }
 
 

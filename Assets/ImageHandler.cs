@@ -3,6 +3,11 @@ using UnityEngine;
 
 public class ImageHandler : MonoBehaviour
 {
+    public void Toggle()
+    {
+        enabled = !enabled;
+    }
+
     void OnEnable()
     {
         //First we get full path

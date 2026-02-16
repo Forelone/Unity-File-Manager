@@ -72,7 +72,6 @@ public class PlayerHands : MonoBehaviour
     Item ItemInMainHand;
     public Item ItemOnHand {get { return ItemInMainHand; }}
     [SerializeField] Rigidbody RigidbodyInOtherHand;
-    float RGDist = 0;
     public bool IsHandFull { get { return ItemInMainHand != null; } }
     public bool IsOHandFull { get { return RigidbodyInOtherHand != null; } }
     public bool Inspecting { get { return PInput.Inspect; } }
@@ -99,23 +98,8 @@ public class PlayerHands : MonoBehaviour
                 if (!HasRG) return;
 
                 RigidbodyInOtherHand = Hit.rigidbody;
-                RGDist = Hit.distance;
+                StartCoroutine(OtherHandHandling());
             }
-            else
-            {
-                Vector3 MousePos = Input.mousePosition;
-                Ray ray = Eye.ScreenPointToRay(MousePos);
-                Vector3 SpacePos = ray.origin + ray.direction * RGDist;
-                RigidbodyInOtherHand.position = SpacePos;
-                RigidbodyInOtherHand.rotation = LeftHand.rotation;
-                if (!RigidbodyInOtherHand.isKinematic)
-                {
-                RigidbodyInOtherHand.angularVelocity = Vector3.zero;
-                RigidbodyInOtherHand.velocity = Vector3.zero;
-                }
-            }
-
-            if (Hit.collider != null && Hit.collider.transform.TryGetComponent(out Useable U)) U.Use_();
         }
         else
         {
@@ -125,6 +109,24 @@ public class PlayerHands : MonoBehaviour
                 ItemInMainHand.PrimaryUse();
             else
                 Punch();   
+        }
+    }
+
+    IEnumerator OtherHandHandling()
+    {
+        if (RigidbodyInOtherHand != null)
+        {
+            Transform Hand = !Lefty ? LeftHand : RightHand;
+            while (RigidbodyInOtherHand != null)
+            {
+
+                RigidbodyInOtherHand.velocity = Vector3.zero;
+                RigidbodyInOtherHand.angularVelocity = Vector3.zero;
+                
+                RigidbodyInOtherHand.position = Hand.position;
+                RigidbodyInOtherHand.rotation = Hand.rotation; 
+                yield return new WaitForFixedUpdate();
+            }
         }
     }
 
@@ -139,6 +141,7 @@ public class PlayerHands : MonoBehaviour
     void InteractHandle()
     {
         if (DebugMode) print("Interact Call");
+        
         (bool IsSomethingInFrontOfMe,RaycastHit Hit) = EyeRay();
 
         if (!IsSomethingInFrontOfMe) return;
@@ -172,6 +175,7 @@ public class PlayerHands : MonoBehaviour
 
     void InspectHandle()
     {
+        if (DebugMode) print("Inspect Call");
         if (!PInput.PrimaryHandUse) RigidbodyInOtherHand = null;
     }
 
