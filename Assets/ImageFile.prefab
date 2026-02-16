@@ -143,7 +143,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5220221798565065876}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b660fa0630e598cba07ef1fe73d09d3, type: 3}
   m_Name: 
@@ -164,9 +164,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6620642206888209743}
-        m_TargetAssemblyTypeName: ImageHandler, Assembly-CSharp
-        m_MethodName: Toggle
-        m_Mode: 1
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -177,12 +177,24 @@ MonoBehaviour:
         m_CallState: 2
   AlternateUse:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6620642206888209743}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   RequiredUseDelay: 0
   RequiredAlternativeUseDelay: 0
   DelayAfterUse: 1
   AlternativeDelayAfterUse: 1
-  Debug: 1
+  Debug: 0
 --- !u!1 &5807289171031104674
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,7 +256,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 442bf37aafb5327a1ae66660d4a78340, type: 2}
+  - {fileID: 2100000, guid: ecfcafd5479084de4ad4dead0e2ee38d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
