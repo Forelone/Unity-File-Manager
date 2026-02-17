@@ -5,7 +5,12 @@ using UnityEngine;
 
 public class FileInfoFetcher : MonoBehaviour
 {
-    [SerializeField] TextMesh TM;
+    public string Description;
+
+    public void Fire()
+    {
+        enabled = !enabled;
+    }
 
     void FixedUpdate()
     {
@@ -33,11 +38,11 @@ public class FileInfoFetcher : MonoBehaviour
 
         var Current = DateTime.Now;
         Text += $"\n\nDate: {Current.ToShortDateString()}\nTime: {Current.ToShortTimeString()}";
-        TM.text = Text;
+        Description = Text;
     }
 
     void OnDisable()
     {
-        TM.text = null;
+        Description = string.Empty;
     }
 }

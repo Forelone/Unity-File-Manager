@@ -7,7 +7,7 @@ public class ImageHandler : MonoBehaviour
     ObjectFileInfo OFI;
     Renderer ImageRen;
 
-    bool Ready = false, Want = false;
+    bool Want = false;
 
     string PathToFile = string.Empty;
 
@@ -27,7 +27,6 @@ public class ImageHandler : MonoBehaviour
             if (TryGetComponent(out OFI))
             { 
                 PathToFile = OFI.Path;
-                Ready = true;
             }
             yield return new WaitForEndOfFrame();
         }
