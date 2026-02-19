@@ -59,7 +59,9 @@ public class ToolGunScript : MonoBehaviour
             {
                 object Value = FInfo.GetValue(ThisTool);
                 if (Value is string Str)
-                    print(Str);
+                {
+                THelp.text = Str;
+                }
             }
             else
             Debug.LogError(FInfo.GetType());
@@ -86,6 +88,7 @@ public class ToolGunScript : MonoBehaviour
         }
         THelp.text = string.Empty;
         OnSelectionScreen = false;
+        UpdateTexts();
     }
 
     /*Bu nedir?

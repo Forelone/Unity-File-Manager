@@ -9,10 +9,10 @@ public class FileInfoFetcher : MonoBehaviour
 
     public void Fire()
     {
-        enabled = !enabled;
+        CheckObj();
     }
 
-    void FixedUpdate()
+    void CheckObj()
     {
         //Check if player is still holding, else close yourself.
         bool RaycastDidHit = Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 2f);

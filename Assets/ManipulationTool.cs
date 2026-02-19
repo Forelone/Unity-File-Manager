@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -5,16 +6,25 @@ using UnityEngine;
 
 public class ManipulationTool : MonoBehaviour
 {
+    public string Description;
+
     Joint Grabbing;
-    
+    Transform PastParent = null;
     [SerializeField] Rigidbody Grabber;
 
     [SerializeField] float MaxDistance = 5f,Mul = 10f;
 
     float Dist;
+    bool CanGrab = true;
 
-    void FixedUpdate() //TO DO: Make this work only when pressing LMB so we don't have to enable and disable this shit.
+    public void Fire()
     {
+        Grab();
+    }
+
+    void Grab() //TO DO: Make this work only when pressing LMB so we don't have to enable and disable this shit.
+    {
+        if (!CanGrab) return;
         //Check if we already grabbing something.
         if (Grabbing == null)
         {
@@ -29,40 +39,28 @@ public class ManipulationTool : MonoBehaviour
                 ConfigurableJoint Conf = Grabbing as ConfigurableJoint;
                 Conf.autoConfigureConnectedAnchor = false;
                 Vector3 Hold = hit.transform.InverseTransformPoint(hit.point);
-                GrabIt(hit.rigidbody,Hold);
+                StartCoroutine(GrabHandle(hit.rigidbody,Hold));
                 Dist = hit.distance;
             }
             return;
         }
-        else
-        {
-            int Left = Input.GetKey(KeyCode.Keypad4) ? 1 : 0;
-            int Right = Input.GetKey(KeyCode.Keypad6) ? 1 : 0;
-            int Up = Input.GetKey(KeyCode.Keypad8) ? 1 : 0;
-            int Down = Input.GetKey(KeyCode.Keypad2) ? 1 : 0;
-            int Forward = Input.GetKey(KeyCode.KeypadPlus) ? 1 : 0;
-            int Back = Input.GetKey(KeyCode.KeypadMinus) ? 1 : 0;
+    }
 
-            float Horizontal = Right - Left;
-            float Vertical = Down - Up;
-            float Linear = Back - Forward;
-            if (Horizontal + Vertical != 0)
-            {
-                ConfigurableJoint Conf = Grabbing as ConfigurableJoint;
-                Vector3 HoldPoint = Conf.anchor;
-                Rigidbody RG = Conf.GetComponent<Rigidbody>();
-                Destroy(Conf);
-                RG.transform.RotateAround(RG.transform.position + HoldPoint,transform.up,Horizontal * Mul);
-                RG.transform.RotateAround(RG.transform.position + HoldPoint,transform.right,Vertical * Mul);
-                GrabIt(RG,HoldPoint);
-            }
+    bool HandlingGrab = false;
+    IEnumerator GrabHandle(Rigidbody Object, Vector3 HoldPoint)
+    {
+        HandlingGrab = true;
+        GrabIt(Object,HoldPoint);
 
-            if (Linear != 0)
-            {
-                Dist -= Time.fixedDeltaTime * Linear * Mul;
-                Grabber.transform.position = transform.position + transform.forward * Dist;
-            }
-        }
+        while (Input.GetAxisRaw("Fire1") == 1)
+            yield return new WaitForFixedUpdate();
+
+        CanGrab = false;
+        DropIt();
+
+        yield return new WaitForFixedUpdate();
+        CanGrab = true;
+        HandlingGrab = false;
     }
     
     void GrabIt(Rigidbody Object, Vector3 HoldPoint)
@@ -81,7 +79,7 @@ public class ManipulationTool : MonoBehaviour
                 Conf.zMotion = ConfigurableJointMotion.Locked;
     }
 
-    void OnDisable()
+    void DropIt()
     {
         Destroy(Grabbing);
     }
