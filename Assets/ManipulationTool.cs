@@ -22,7 +22,7 @@ public class ManipulationTool : MonoBehaviour
         Grab();
     }
 
-    void Grab() //TO DO: Make this work only when pressing LMB so we don't have to enable and disable this shit.
+    void Grab() //TO DO: Make this work only when pressing LMB so we don't have to enable and disable this shit. DONE
     {
         if (!CanGrab) return;
         //Check if we already grabbing something.
