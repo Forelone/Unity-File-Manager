@@ -1,15 +1,38 @@
 using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DuplicationTool : MonoBehaviour
 {
+    public string Description = "Copies files.";
+    
+    bool FirstTime = true,IsCopying = false;
+
     [SerializeField] float MaxDistance = 5f;
     ObjectFileInfo FileToCopy;
+
+    public void Fire()
+    {
+        if (!IsCopying)
+            Copy();
+        else
+            Paste();
+    }
+
     public void Copy()
     {
+        if (FirstTime)
+        {
+            FirstTime = false;
+            Description = "Aim at file to copy.";
+            return;
+        }
+
         if (Physics.Raycast(transform.position,transform.forward,out RaycastHit hit,MaxDistance) && hit.rigidbody != null && hit.transform.TryGetComponent(out ObjectFileInfo OFI))
         {
+            IsCopying = true;
             FileToCopy = OFI;
+            Description = "Aim at target folder to paste.";
         }
     }
 
@@ -39,6 +62,8 @@ public class DuplicationTool : MonoBehaviour
             Dupe.AddComponent<ObjectFileInfo>().Setup(Info);
 
             FileToCopy = null;
+            IsCopying = false;
+            Description = "Aim at file to copy.";
         }
     }
 }
