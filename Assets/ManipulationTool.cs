@@ -9,12 +9,10 @@ public class ManipulationTool : MonoBehaviour
     public string Description;
 
     Joint Grabbing;
-    Transform PastParent = null;
     [SerializeField] Rigidbody Grabber;
 
-    [SerializeField] float MaxDistance = 5f,Mul = 10f;
+    [SerializeField] float MaxDistance = 5f;
 
-    float Dist;
     bool CanGrab = true;
 
     public void Fire()
@@ -29,7 +27,6 @@ public class ManipulationTool : MonoBehaviour
         if (Grabbing == null)
         {
             //If so check if we have a rigidbody front of us
-            Dist = 0f;
             RaycastHit hit;
             if (Physics.Raycast(transform.position, transform.forward, out hit, MaxDistance) && hit.rigidbody != null)
             {
@@ -40,16 +37,13 @@ public class ManipulationTool : MonoBehaviour
                 Conf.autoConfigureConnectedAnchor = false;
                 Vector3 Hold = hit.transform.InverseTransformPoint(hit.point);
                 StartCoroutine(GrabHandle(hit.rigidbody,Hold));
-                Dist = hit.distance;
             }
             return;
         }
     }
 
-    bool HandlingGrab = false;
     IEnumerator GrabHandle(Rigidbody Object, Vector3 HoldPoint)
     {
-        HandlingGrab = true;
         GrabIt(Object,HoldPoint);
 
         while (Input.GetAxisRaw("Fire1") == 1)
@@ -60,7 +54,6 @@ public class ManipulationTool : MonoBehaviour
 
         yield return new WaitForFixedUpdate();
         CanGrab = true;
-        HandlingGrab = false;
     }
     
     void GrabIt(Rigidbody Object, Vector3 HoldPoint)

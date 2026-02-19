@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -5,6 +6,18 @@ using UnityEngine;
 public class DuplicationTool : MonoBehaviour
 {
     public string Description = "Copies files.";
+    public event Action OnDescriptionChange;
+    public string Desc
+    {
+        get {return Description;}
+        set
+        {
+            if (Description != value)
+            {
+                Description = value; OnDescriptionChange.Invoke();
+            }
+        }
+    }
     
     bool FirstTime = true,IsCopying = false;
 
@@ -24,7 +37,7 @@ public class DuplicationTool : MonoBehaviour
         if (FirstTime)
         {
             FirstTime = false;
-            Description = "Aim at file to copy.";
+            Desc = "Aim at file to copy.";
             return;
         }
 
@@ -32,7 +45,7 @@ public class DuplicationTool : MonoBehaviour
         {
             IsCopying = true;
             FileToCopy = OFI;
-            Description = "Aim at target folder to paste.";
+            Desc = "Aim at target folder to paste.";
         }
     }
 
@@ -41,7 +54,7 @@ public class DuplicationTool : MonoBehaviour
         if (FileToCopy == null) return;
         if (Physics.Raycast(transform.position,transform.forward,out RaycastHit hit,MaxDistance))
         {
-            string FileName = FileToCopy.name += Random.Range(0,999999).ToString() + FileToCopy.Extension;
+            string FileName = FileToCopy.name += UnityEngine.Random.Range(0,999999).ToString() + FileToCopy.Extension;
             string TargetPath = FileToCopy.DirPath; //This is directory path
             PathProtocol Peepee;
             Transform Parent = FileToCopy.transform.parent;
@@ -63,7 +76,7 @@ public class DuplicationTool : MonoBehaviour
 
             FileToCopy = null;
             IsCopying = false;
-            Description = "Aim at file to copy.";
+            Desc = "Aim at file to copy.";
         }
     }
 }

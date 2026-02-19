@@ -6,6 +6,18 @@ using UnityEngine;
 public class FileInfoFetcher : MonoBehaviour
 {
     public string Description;
+    public event Action OnDescriptionChange;
+    public string Desc
+    {
+        get {return Description;}
+        set
+        {
+            if (Description != value)
+            {
+                Description = value; OnDescriptionChange.Invoke();
+            }
+        }
+    }
 
     public void Fire()
     {

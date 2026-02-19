@@ -27,6 +27,39 @@ public class ToolGunScript : MonoBehaviour
         }
     }
 
+    Action[] actions;
+    void OnEnable()
+    {
+        actions = new Action[Tools.Length];
+        for (int i = 0; i < Tools.Length; i++)
+        {
+            //Get Action
+            EventInfo ODC = Tools[i].GetType().GetEvent("OnDescriptionChange");
+
+            if (ODC != null)
+            {
+                actions[i] = new Action(UpdateTexts);
+                ODC.AddEventHandler(Tools[i],actions[i]);
+            }
+        }
+    }
+
+    void OnDisable()
+    {
+        for (int i = 0; i < Tools.Length; i++)
+        {
+            //Get Action
+            EventInfo ODC = Tools[i].GetType().GetEvent("OnDescriptionChange");
+
+            if (ODC != null)
+            {
+                ODC.RemoveEventHandler(Tools[i],actions[i]);
+            }
+        }        
+    }
+
+    void Sub(object Send,EventArgs e) => UpdateTexts();
+
     public void Fire()
     {
             Type ThisTool = Tools[CurrentTool].GetType();
@@ -38,6 +71,8 @@ public class ToolGunScript : MonoBehaviour
 
             UpdateTexts();
     }
+
+
 
     bool OnSelectionScreen,Selected;
     public void BackToMenu() 

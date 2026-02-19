@@ -1,14 +1,40 @@
+using System;
 using System.Collections;
+using System.Diagnostics;
 using UnityEngine;
 
 public class ColorTool : MonoBehaviour
 {
+    public string Description = "Colors files.";
+    public string Desc
+    {
+        get {return Description;}
+        set
+        {
+            if (Description != value)
+            {
+                Description = value; OnDescriptionChange.Invoke();
+            }
+        }
+    }
+
+    public event Action OnDescriptionChange;
+    public bool DebugMode = true;
+    public void Fire()
+    {
+        if (FireReady)
+            Apply();
+        else
+            Configure();
+    }
+
     [SerializeField] Renderer Renderer;
-    [SerializeField] TextMesh TxMesh;
     [SerializeField] float MaxDistance;
     [SerializeField] Color ApplyColor;
 
+
     bool Configuring;
+    bool FireReady = false;
 
     public void Apply()
     {
@@ -18,6 +44,9 @@ public class ColorTool : MonoBehaviour
         hit.transform.TryGetComponent(out Renderer R))
         {
             R.material.color = ApplyColor;
+            FireReady = false;
+            Renderer.gameObject.SetActive(false);
+            Renderer.material.color = Color.black;
         }
     }
 
@@ -29,87 +58,75 @@ public class ColorTool : MonoBehaviour
 
     IEnumerator Configuration()
     {
-        ClearText();
         Configuring = true;
-        AddText("Configuration started, \nEscape to exit.\n");
-        ApplyColor = Color.black;
-        int RI,GI,BI;
-        float R,G,B;
-        while (!Input.GetKey(KeyCode.Escape))
+
+        bool RedOK = false,BlueOK = false,GreenOK = false,ColorCreated = false;
+        int R = 0,G = 0,B = 0;
+        while(!ColorCreated)
         {
-            AddText("Please input red color value\nbetween 255 and 0\n and press Keypad Enter:");
-            string RStr = "0";
-            while (!Input.GetKey(KeyCode.KeypadEnter))
+            string Str = string.Empty;
+            if (!RedOK)
             {
-                if (Input.anyKey)
+                Desc = "Please enter RED color value (0-255)\n and press 'Submit' key.";
+                while (Input.GetAxisRaw("Submit") == 0)
                 {
-                    RStr += Input.inputString;
+                    Str += Input.inputString;
+                    yield return new WaitUntil(() => Input.anyKey);
+                    if (DebugMode) print(Str);
                 }
-                yield return new WaitUntil(() => Input.anyKey);
+                if (DebugMode) print("Submitted!");
+                if (int.TryParse(Str,out R)) RedOK = true;
+                else { yield return new WaitForFixedUpdate(); continue; }
             }
-            yield return new WaitUntil(() => !Input.GetKey(KeyCode.KeypadEnter));
-            if (int.TryParse(RStr,out RI))
-            {
-                R = RI / 255f;
-                ApplyColor.r = R;
-                UpdateColor();
-            }
-            else { ClearText(); continue;}
-            ClearText();
             
-            AddText("Please input green color value\nbetween 255 and 0\n and press Keypad Enter:");
-            string GStr = "0";
-            while (!Input.GetKey(KeyCode.KeypadEnter))
+            UpdateColor(R,G,B);
+            Str = string.Empty;
+            if (!BlueOK)
             {
-                if (Input.anyKey)
+                Desc = "Please enter BLUE color value (0-255)\n and press 'Submit' key.";
+                while (Input.GetAxisRaw("Submit") == 0)
                 {
-                    GStr += Input.inputString;
+                    Str += Input.inputString;
+                    yield return new WaitUntil(() => Input.anyKey);
+                    if (DebugMode) print(Str);
                 }
-                yield return new WaitUntil(() => Input.anyKey);
+                if (DebugMode) print("Submitted!");
+                if (int.TryParse(Str,out B)) BlueOK = true;
+                else { yield return new WaitForFixedUpdate(); continue; }
             }
-            yield return new WaitUntil(() => !Input.GetKey(KeyCode.KeypadEnter));
-            if (int.TryParse(GStr,out GI))
-            {
-                G = RI / 255f;
-                ApplyColor.g = G;
-                UpdateColor();
-            }
-            else { ClearText(); continue;}
-            ClearText();
 
-            AddText("Please input blue color value\nbetween 255 and 0\n and press Keypad Enter:");
-            string BStr = "0";
-            while (!Input.GetKey(KeyCode.KeypadEnter))
+            UpdateColor(R,G,B);
+            Str = string.Empty;
+            if (!GreenOK)
             {
-                if (Input.anyKey)
+                Desc = "Please enter GREEN color value (0-255)\n and press 'Submit' key.";
+                while (Input.GetAxisRaw("Submit") == 0)
                 {
-                    BStr += Input.inputString;
+                    Str += Input.inputString;
+                    yield return new WaitUntil(() => Input.anyKey);
+                    if (DebugMode) print(Str);
                 }
-                yield return new WaitUntil(() => Input.anyKey);
+                if (DebugMode) print("Submitted!");
+                if (int.TryParse(Str,out G)) GreenOK = true;
+                else { yield return new WaitForFixedUpdate(); continue; }
             }
-            yield return new WaitUntil(() => !Input.GetKey(KeyCode.KeypadEnter));
-            if (int.TryParse(BStr,out BI))
-            {
-                B = BI / 255f;
-                ApplyColor.b = B;
-                UpdateColor();
-                break;
-            }
-            else{ ClearText(); continue;}
-        } //This is fine.
+
+            if (RedOK && BlueOK && GreenOK) { UpdateColor(R,G,B,true); ColorCreated = true; }
+            yield return new WaitForFixedUpdate();
+        }
         Configuring = false;
-        ResetText();
     }
 
-    void AddText(string Text)
+    void UpdateColor(int R,int G,int B,bool SetTo = false)
     {
-        TxMesh.text += $"{Text}\n";
+        Color color = new Color((float)R / 255f,(float)G / 255f,(float)B / 255f);
+        Renderer.material.color = color;
+
+        if (SetTo)
+        {
+            ApplyColor = color;
+            FireReady = true;
+        } 
     }
-
-    void ClearText() => TxMesh.text = string.Empty;
-
-    void ResetText() => TxMesh.text = $"Color Tool \n\nLMB = Apply Color\nRMB = Configure Color\n\nCurrent: {Mathf.RoundToInt(ApplyColor.r * 255)}, {Mathf.RoundToInt(ApplyColor.g * 255)}, {Mathf.RoundToInt(ApplyColor.b * 255)}";
-
-    void UpdateColor() => Renderer.material.color = ApplyColor;
 
 }
