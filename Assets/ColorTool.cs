@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ColorTool : MonoBehaviour
 {
-    public string Description = "Colors files.";
+    public string Description = "Colors things. \n0,0,0";
     public string Desc
     {
         get {return Description;}
@@ -47,6 +47,13 @@ public class ColorTool : MonoBehaviour
             FireReady = false;
             Renderer.gameObject.SetActive(false);
             Renderer.material.color = Color.black;
+
+            if (Input.GetAxisRaw("Sprint") == 0)
+            {
+                Renderer.gameObject.SetActive(false);
+                Renderer.material.color = Color.black;                
+                FireReady = false;   
+            }
         }
     }
 
@@ -61,20 +68,24 @@ public class ColorTool : MonoBehaviour
         Configuring = true;
 
         bool RedOK = false,BlueOK = false,GreenOK = false,ColorCreated = false;
+        Renderer.gameObject.SetActive(true);
         int R = 0,G = 0,B = 0;
         while(!ColorCreated)
         {
             string Str = string.Empty;
             if (!RedOK)
             {
-                Desc = "Please enter RED color value (0-255)\n and press 'Submit' key.";
+                var S = "Please enter RED color value (0-255)\n and press 'Submit' key."; 
+                Desc = S;
                 while (Input.GetAxisRaw("Submit") == 0)
                 {
                     Str += Input.inputString;
                     yield return new WaitUntil(() => Input.anyKey);
                     if (DebugMode) print(Str);
+                    Desc = $"{S} \n{Str}";
                 }
                 if (DebugMode) print("Submitted!");
+                Desc = "Submitted!";
                 if (int.TryParse(Str,out R)) RedOK = true;
                 else { yield return new WaitForFixedUpdate(); continue; }
             }
@@ -83,14 +94,17 @@ public class ColorTool : MonoBehaviour
             Str = string.Empty;
             if (!BlueOK)
             {
-                Desc = "Please enter BLUE color value (0-255)\n and press 'Submit' key.";
+                var S = "Please enter BLUE color value (0-255)\n and press 'Submit' key."; 
+                Desc = S;
                 while (Input.GetAxisRaw("Submit") == 0)
                 {
                     Str += Input.inputString;
                     yield return new WaitUntil(() => Input.anyKey);
                     if (DebugMode) print(Str);
+                    Desc = $"{S} \n{Str}";
                 }
                 if (DebugMode) print("Submitted!");
+                Desc = "Submitted!";
                 if (int.TryParse(Str,out B)) BlueOK = true;
                 else { yield return new WaitForFixedUpdate(); continue; }
             }
@@ -99,14 +113,17 @@ public class ColorTool : MonoBehaviour
             Str = string.Empty;
             if (!GreenOK)
             {
-                Desc = "Please enter GREEN color value (0-255)\n and press 'Submit' key.";
+                var S = "Please enter GREEN color value (0-255)\n and press 'Submit' key."; 
+                Desc = S;
                 while (Input.GetAxisRaw("Submit") == 0)
                 {
                     Str += Input.inputString;
                     yield return new WaitUntil(() => Input.anyKey);
                     if (DebugMode) print(Str);
+                    Desc = $"{S} \n{Str}";
                 }
                 if (DebugMode) print("Submitted!");
+                Desc = "Submitted!";
                 if (int.TryParse(Str,out G)) GreenOK = true;
                 else { yield return new WaitForFixedUpdate(); continue; }
             }
@@ -126,6 +143,7 @@ public class ColorTool : MonoBehaviour
         {
             ApplyColor = color;
             FireReady = true;
+            Desc = $"Colors things. {R},{G},{B}";
         } 
     }
 
