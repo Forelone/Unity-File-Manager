@@ -302,9 +302,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42a41dba5c98a8a19859f484961b178a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Renderer: {fileID: 0}
-  TxMesh: {fileID: 0}
-  MaxDistance: 0
+  Description: "Colors folder backgrounds. \n0,0,0"
+  DebugMode: 1
+  Renderer: {fileID: 213889291}
+  MaxDistance: 5
   ApplyColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &76276379
 MonoBehaviour:
