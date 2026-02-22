@@ -1,16 +1,34 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SizeTool : MonoBehaviour
 {
-    TextMesh TextMesh;
+    public string Description = "Colors things. \n0,0,0";
+    public string Desc
+    {
+        get {return Description;}
+        set
+        {
+            if (Description != value)
+            {
+                Description = value; OnDescriptionChange.Invoke();
+            }
+        }
+    }
+    public event Action OnDescriptionChange;
+
     [SerializeField] float MaxDistance;
     Vector3 ApplySize;
-    // Start is called before the first frame update
-    void Start()
+    bool FireReady = false;
+
+    public void Fire()
     {
-        TextMesh = GetComponentInChildren<TextMesh>();
+        if (FireReady)
+            Apply();
+        else
+            Configure();
     }
 
     public void Apply()
@@ -23,6 +41,7 @@ public class SizeTool : MonoBehaviour
             T.SetParent(null);
             T.localScale = ApplySize;
             T.SetParent(Parent);
+            FireReady = false;
         }
     }
 
@@ -85,7 +104,8 @@ public class SizeTool : MonoBehaviour
             yield return new WaitUntil(() => !Input.GetKey(KeyCode.KeypadEnter));
             if (!float.TryParse(ZStr,out Z)) { ClearText(); continue;}
             else {
-                ApplySize = new Vector3(X,Y,Z); 
+                ApplySize = new Vector3(X,Y,Z);
+                FireReady = true; 
                 break;
             }
         } //This is fine.
@@ -95,11 +115,11 @@ public class SizeTool : MonoBehaviour
 
     void AddText(string Text)
     {
-        TextMesh.text += $"{Text}\n";
+        Desc += $"{Text}\n";
     }
 
-    void ClearText() => TextMesh.text = string.Empty;
+    void ClearText() => Desc = string.Empty;
 
-    void ResetText() => TextMesh.text = $"Size Tool \n\nLMB = Apply Size\nRMB = Configure Size\n\nCurrent: {ApplySize.x}, {ApplySize.y}, {ApplySize.z}";
+    void ResetText() => Desc = $"Sizes things. \n\nLMB = Configure (if not)\nSize it. {ApplySize.x}, {ApplySize.y}, {ApplySize.z}";
 
 }
