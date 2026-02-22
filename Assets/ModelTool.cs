@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -5,15 +6,36 @@ using UnityEngine;
 
 public class ModelTool : MonoBehaviour
 {
+    public string Description = "Colors things. \n0,0,0";
+    public string Desc
+    {
+        get {return Description;}
+        set
+        {
+            if (Description != value)
+            {
+                Description = value; OnDescriptionChange.Invoke();
+            }
+        }
+    }
+    public event Action OnDescriptionChange;
+
     string ModelCopyPath = string.Empty;
+    bool FireReady;
+    public void Fire()
+    {
+        if (FireReady)
+            Paste();
+        else
+            Copy();
+    }
+
     [SerializeField] float MaxDistance = 5;
 
-    TextMesh TM;
-    string DefaultText;
-    void Start()
+    string DefaultText = "Applies models to file. \nCurrent Model:\n"; 
+    void Awake()
     {
-        TM = GetComponentInChildren<TextMesh>();
-        DefaultText = TM.text;
+        Desc = DefaultText;
     }
 
     public void Paste()
@@ -24,7 +46,8 @@ public class ModelTool : MonoBehaviour
             hit.transform.GetOrAddComponent<ModelFile>().OverrideModel(ModelCopyPath);
 
             ModelCopyPath = string.Empty; 
-            TM.text = DefaultText + ModelCopyPath;
+            Desc = $"{DefaultText} {ModelCopyPath}";
+            FireReady = false;
         }
     }
 
@@ -34,7 +57,8 @@ public class ModelTool : MonoBehaviour
         if (Physics.Raycast(transform.position,transform.forward,out hit,MaxDistance) && hit.transform.TryGetComponent(out MeshRenderer mR))
         {
             ModelCopyPath = hit.collider.GetComponent<ObjectFileInfo>().Path;
-            TM.text = DefaultText + ModelCopyPath;
+            Desc = $"{DefaultText} {ModelCopyPath}";
+            FireReady = true;
         }
     }
 }

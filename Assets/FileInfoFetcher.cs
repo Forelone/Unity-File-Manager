@@ -52,9 +52,4 @@ public class FileInfoFetcher : MonoBehaviour
         Text += $"\n\nDate: {Current.ToShortDateString()}\nTime: {Current.ToShortTimeString()}";
         Description = Text;
     }
-
-    void OnDisable()
-    {
-        Description = string.Empty;
-    }
 }
