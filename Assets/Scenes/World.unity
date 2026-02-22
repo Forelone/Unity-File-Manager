@@ -501,7 +501,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &468069960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1364,6 +1364,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1956990714}
     - target: {fileID: 8569132736193107390, guid: 2e1043d9d4c6b68b8bc690e654b11942, type: 3}
+      propertyPath: Eyes
+      value: 
+      objectReference: {fileID: 1956990718}
+    - target: {fileID: 8569132736193107390, guid: 2e1043d9d4c6b68b8bc690e654b11942, type: 3}
       propertyPath: Gravity
       value: -1
       objectReference: {fileID: 0}
@@ -1444,6 +1448,11 @@ CapsuleCollider:
   m_Height: 2.6447916
   m_Direction: 1
   m_Center: {x: 0, y: 0.22635579, z: 0}
+--- !u!20 &1956990718 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 8494916546135826046, guid: 2e1043d9d4c6b68b8bc690e654b11942, type: 3}
+  m_PrefabInstance: {fileID: 1956990711}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1956990724 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7058320983379530502, guid: 2e1043d9d4c6b68b8bc690e654b11942, type: 3}

@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float WalkSpeed = 1, RunSpeed = 2,JumpPower = 1.5f,DampSpeed = 10,GroundCheckOffset = 1,GroundCheckDist = 0.1f,Gravity = -9.81f;
     bool OnGround;
     [SerializeField] bool DebugMode = true;
+    [SerializeField] Camera Eyes;
 
     Vector3 Velocity,DesiredVelocity;
     CharacterController CC;
@@ -44,6 +45,11 @@ public class PlayerMovement : MonoBehaviour
         //DON'T TOUCH MY BALLS
         if (DebugMode)
             Debug.DrawRay(Origin,Direction * GroundCheckDist,OnGround ? Color.green : Color.red);
+
+        if (hit.transform != null &&hit.transform.TryGetComponent(out PathProtocol PeePee))
+        {
+            Eyes.backgroundColor = PeePee.GetBGColor(); //I'm doing this here for not calling another Raycast cause of performance issues.
+        }
     }
 
     public void HandleMovement(Vector3 NewMovement)
