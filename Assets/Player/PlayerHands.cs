@@ -169,7 +169,7 @@ public class PlayerHands : MonoBehaviour
         Item OldItem = ItemInMainHand;
 
         OldItem.RigidBody_.isKinematic = false;
-        OldItem.transform.SetParent(null);
+        OldItem.transform.SetParent(transform.parent);
         ItemInMainHand = null;
     }
 

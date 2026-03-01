@@ -50,7 +50,7 @@ public class ModelTool : MonoBehaviour
     public void Copy()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position,transform.forward,out hit,MaxDistance) && hit.transform.TryGetComponent(out MeshRenderer mR))
+        if (Physics.Raycast(transform.position,transform.forward,out hit,MaxDistance) && hit.transform.TryGetComponent(out ModelFile MF))
         {
             ModelCopyPath = hit.collider.GetComponent<ObjectFileInfo>().Path;
             Desc = $"{DefaultText} {ModelCopyPath}";

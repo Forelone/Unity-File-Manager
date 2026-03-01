@@ -1,21 +1,123 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class ConsoleBook : MonoBehaviour
 {
     [SerializeField] int Index,MaxIndex;
     string[] LastLogs;
-    TextMesh TextMesh;
+    [SerializeField] TextMesh Logs,CommandLine;
+    [SerializeField] Command[] Commands;
     void Start()
     {
-        TextMesh = GetComponentInChildren<TextMesh>();
         LastLogs = new string[MaxIndex];
         Application.logMessageReceived += Log;
 
         DrawText();
+    }
+
+    PlayerInput PI;
+
+    public void UseConsoleBook()
+    {
+        if (PI == null)
+        {
+            PI = GetComponentInParent<PlayerInput>();
+            StartCoroutine(HandleInput());
+        }
+    }
+
+    string InputStr = string.Empty;
+
+    void Update()
+    {
+        if (PI == null) return;
+
+        foreach (var Char in Input.inputString)
+        {
+            if (Char == '\b' && InputStr.Length != 0) // has backspace/delete been pressed?
+                InputStr = InputStr.Substring(0, InputStr.Length - 1);
+            else if ((Char == '\n') || (Char == '\r'))
+                BreakItDown(InputStr);
+            else
+                InputStr += Char;
+        }
+        CommandLine.text = $">{InputStr}";
+    }
+
+    IEnumerator HandleInput()
+    {
+        PI.enabled = false;
+        print("press ESC (Escape) key to retake control.");
+        while (!Input.GetKey(KeyCode.Escape))
+        {
+            //I was gonna handle it here but void Update() does it better.
+            yield return new WaitForEndOfFrame();
+        }
+        PI.enabled = true;
+        PI = null;
+        print("You retook control.");
+    }
+
+    void BreakItDown(string RawCommand)
+    {
+        print($">{RawCommand}");
+        InputStr = string.Empty;
+
+        if (RawCommand.Length == 0) return;
+        List<string> Args = RawCommand.Split().ToList();
+        string Command = Args.First();
+
+        Args.RemoveAt(0);
+
+        if (Args.Count == 0) Args = null;
+
+        HandleCommand(Command,Args);
+    }
+
+    void HandleCommand(string Command, List<string> Vars = null)
+    {
+        switch (Command)
+        {
+            default:
+                Debug.LogError($"Unknown command '{Command}'.\nUse '?' to list all avaiable commands,\n'? <ENTER COMMAND HERE>' for details of one.");
+            break;
+
+            case "?":
+                if (Vars == null)
+                {
+                    var Str = "All Commands:\n";
+                    foreach (var Cmm in Commands)
+                    {
+                        Str += $"{Cmm.Name}, ";
+                    }
+                    print(Str);
+                }
+                else
+                {
+                    Command FoundCommand = Commands.ToList().Find(x => x.Name == Vars[0]);
+
+                    if (FoundCommand != null)
+                    print($"\n {FoundCommand.Name}\n{FoundCommand.CommandDescription}");
+                }
+            break;
+            
+            case "cls":
+                LastLogs = new string[MaxIndex];
+                Index = 0;
+                Logs.text = string.Empty;
+            break;
+
+            case "zoom":
+                var T = PI.GetComponentInChildren<Camera>().transform;
+                transform.position = T.position + T.forward / 2 - T.up / 4;
+            break;
+        }
     }
 
     void Log(string LogSt, string StackTr, LogType LType)
@@ -54,7 +156,7 @@ public class ConsoleBook : MonoBehaviour
             Text += $"{Log}\n";
         }
 
-        TextMesh.text = Text;
+        Logs.text = Text;
     }
 
     public void DebugError()
@@ -66,4 +168,13 @@ public class ConsoleBook : MonoBehaviour
     {
         Debug.LogWarning("This is a warning",gameObject);
     }
+
+}
+
+[Serializable]
+public class Command
+{
+    public string Name;
+    [TextArea(3, 10)]
+    public string CommandDescription;
 }

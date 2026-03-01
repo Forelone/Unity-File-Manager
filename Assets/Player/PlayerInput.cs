@@ -124,5 +124,16 @@ public class PlayerInput : MonoBehaviour
         Cursor.visible = Inspect && InspectButtonUnlocksMouse;
     }
 
+    void OnDisable()
+    {
+        PrimaryHandUse = false;
+        SecondaryHandUse = false;
+        InteractiveUse = false;
+        Refuse = false;
+        Inspect = false;
+        DesiredMovement = Vector3.zero;
+        DesiredRotation = Vector2.zero;
+    }
+
 
 }
