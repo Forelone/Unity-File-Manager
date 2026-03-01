@@ -33,10 +33,6 @@ public class ModelTool : MonoBehaviour
     [SerializeField] float MaxDistance = 5;
 
     string DefaultText = "Applies models to file. \nCurrent Model:\n"; 
-    void Awake()
-    {
-        Desc = DefaultText;
-    }
 
     public void Paste()
     {

@@ -11,6 +11,7 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] Animation RightArmAnim;
 
     [SerializeField] PlayerHands PHands;
+    bool DebugMode = false;
 
     bool SwitchingItem = false;
     void Update()
@@ -24,7 +25,7 @@ public class PlayerInventory : MonoBehaviour
             if (Input.GetKey(KeyCode.Alpha0 + Key))
             {
                 PressedKey = Key;
-                print(PressedKey);
+                if (DebugMode) print(PressedKey);
                 break;
             }
         }
