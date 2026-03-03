@@ -17,7 +17,9 @@ public class ConsoleBook : MonoBehaviour
     {
         LastLogs = new string[MaxIndex];
         Application.logMessageReceived += Log;
-
+        float Size = PlayerPrefs.GetFloat("tsize",0.005f);
+        Logs.characterSize = Size;
+        CommandLine.characterSize = Size;
         DrawText();
     }
 
@@ -116,6 +118,20 @@ public class ConsoleBook : MonoBehaviour
             case "zoom":
                 var T = PI.GetComponentInChildren<Camera>().transform;
                 transform.position = T.position + T.forward / 2 - T.up / 4;
+            break;
+
+            case "credits":
+                var S = "Made by Forelone in 2025!\n\nUsed OBJImporter extension made by Dummiesman!\nThank you for your contrubution!";
+                print(S);
+            break;
+
+            case "tsize":
+                if (Vars != null && float.TryParse(Vars[0],out float Size))
+                {
+                    Logs.characterSize = Size / 1000;
+                    CommandLine.characterSize = Size / 1000;
+                    PlayerPrefs.SetFloat("tsize",Size / 1000);
+                }
             break;
         }
     }

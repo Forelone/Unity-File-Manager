@@ -1525,6 +1525,10 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5392951358075226136, guid: 2e1043d9d4c6b68b8bc690e654b11942, type: 3}
+      propertyPath: PI
+      value: 
+      objectReference: {fileID: 1956990714}
+    - target: {fileID: 5392951358075226136, guid: 2e1043d9d4c6b68b8bc690e654b11942, type: 3}
       propertyPath: PHands
       value: 
       objectReference: {fileID: 1956990724}
@@ -2122,6 +2126,12 @@ MonoBehaviour:
     CommandDescription: Clears logs and strings on display.
   - Name: zoom
     CommandDescription: Gets wizard book closer to your screen.
+  - Name: credits
+    CommandDescription: shows who made this crap.
+  - Name: tsize
+    CommandDescription: 'Changes text size (default: 5)
+
+      Usage: >tsize <NUMBER>'
 --- !u!114 &6503267496999784252
 MonoBehaviour:
   m_ObjectHideFlags: 0

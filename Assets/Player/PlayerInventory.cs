@@ -10,12 +10,14 @@ public class PlayerInventory : MonoBehaviour
    [SerializeField] List<Item> Inventory;
     [SerializeField] Animation RightArmAnim;
 
+    [SerializeField] PlayerInput PI;
     [SerializeField] PlayerHands PHands;
     bool DebugMode = false;
 
     bool SwitchingItem = false;
     void Update()
     {
+        if (!PI.enabled) return;
         if (!Input.anyKey) return;
         if (SwitchingItem) return;
         
