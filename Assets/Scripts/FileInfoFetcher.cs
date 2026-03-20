@@ -40,6 +40,7 @@ public class FileInfoFetcher : MonoBehaviour
             }
             else if (hit.transform.TryGetComponent(out GATEProtocol Gate))
             {
+                Text = $"Name: {Gate.gameObject.name}\nPath: \n{Gate.GatePath}\nOpen : {Gate.IsOpen}";
                 //Display Info
             }
             else

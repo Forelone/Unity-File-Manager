@@ -26,13 +26,9 @@ public class FileProtocol : MonoBehaviour
         var OS = SystemInfo.operatingSystem;
         OS.ToLower();
 
-        if (OS.Contains("Windows"))
+        if (StartPath == "")
         {
-            StartPath = "C:";
-        }
-        else if (OS.Contains("Linux"))
-        {
-            StartPath = "/";
+            StartPath = Application.dataPath;
         }
     }
 
@@ -44,7 +40,7 @@ public class FileProtocol : MonoBehaviour
         CurrentlyOpenFolders = new List<PathProtocol>();
         GameObject StartPrefab = Instantiate(FolderPrefab);
         StartPrefab.GetComponent<PathProtocol>().SetupPath(StartPath);
-        StartPrefab.name = "";
+        StartPrefab.name = $"Folder: {StartPath}";
     }
 
     public void OpenFolder(string Path,GATEProtocol RequestedBy)
@@ -53,16 +49,19 @@ public class FileProtocol : MonoBehaviour
 
         if (ExistingPath) { Debug.LogError("This path is already open!",ExistingPath.gameObject); return; }
 
-        GameObject RequestFolder = Instantiate(FolderPrefab);
-        PathProtocol pathProtocol = RequestFolder.GetComponent<PathProtocol>();
         Transform Parent = RequestedBy.transform;
 
         DirectoryInfo Info = new DirectoryInfo(Path);
         int FileCount = Info.GetFiles().Length, FolderCount = Info.GetDirectories().Length, TotalCount = FileCount + FolderCount;
-        Vector3 SpawnPos = new Vector3(Parent.position.x, -50, Parent.position.z) + Parent.transform.forward * FolderCount;
+
+        Vector3 SpawnPos = RequestedBy.transform.position + RequestedBy.transform.forward * (TotalCount / 2);
+
+        GameObject RequestFolder = Instantiate(FolderPrefab);
         RequestFolder.transform.position = SpawnPos;
         RequestFolder.transform.rotation = RequestedBy.transform.rotation;
-        RequestFolder.GetComponent<PathProtocol>().SetupPath(Path);
+        PathProtocol pathProtocol = RequestFolder.GetComponent<PathProtocol>();
+        pathProtocol.SetupPath(Path);
+        RequestFolder.name = $"Folder: {Path}";
         CurrentlyOpenFolders.Add(pathProtocol);
     }
 
@@ -71,7 +70,7 @@ public class FileProtocol : MonoBehaviour
         PathProtocol FoundPeePee = CurrentlyOpenFolders.Find(x => x.GetPath() == gatePath);
         if (FoundPeePee != null)
         {
-            FoundPeePee.KillYourSelf();
+            FoundPeePee.SaveAndDestroySelf();
             CurrentlyOpenFolders.Remove(FoundPeePee);
         }
         else

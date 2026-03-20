@@ -41,6 +41,8 @@ public class ModelTool : MonoBehaviour
         {
             hit.transform.GetOrAddComponent<ModelFile>().OverrideModel(ModelCopyPath);
 
+            if (hit.transform.TryGetComponent(out ObjectFileInfo OFI))
+                OFI.AddTag("Model",new string[]{$"'{ModelCopyPath}'"});
             ModelCopyPath = string.Empty; 
             Desc = $"{DefaultText} {ModelCopyPath}";
             FireReady = false;

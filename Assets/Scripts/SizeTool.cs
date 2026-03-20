@@ -42,6 +42,14 @@ public class SizeTool : MonoBehaviour
             T.localScale = ApplySize;
             T.SetParent(Parent);
             FireReady = false;
+
+            if (hit.transform.TryGetComponent(out ObjectFileInfo OFI))
+            {
+         string X = ApplySize.x.ToString(),
+                Y = ApplySize.y.ToString(),
+                Z = ApplySize.z.ToString();
+                OFI.AddTag("Size",new string[]{X,Y,Z});
+            }
         }
     }
 

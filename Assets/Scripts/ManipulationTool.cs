@@ -28,15 +28,18 @@ public class ManipulationTool : MonoBehaviour
         {
             //If so check if we have a rigidbody front of us
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.forward, out hit, MaxDistance) && hit.rigidbody != null)
+            if (Physics.Raycast(transform.position, transform.forward, out hit, MaxDistance))
             {
-                Grabber.transform.position = hit.point;
-                //Grab the rigidbody
-                Grabbing = hit.rigidbody.gameObject.AddComponent<ConfigurableJoint>();
-                ConfigurableJoint Conf = Grabbing as ConfigurableJoint;
-                Conf.autoConfigureConnectedAnchor = false;
-                Vector3 Hold = hit.transform.InverseTransformPoint(hit.point);
-                StartCoroutine(GrabHandle(hit.rigidbody,Hold));
+                if (hit.rigidbody != null)
+                {
+                    Grabber.transform.position = hit.point;
+                    //Grab the rigidbody
+                    Grabbing = hit.rigidbody.gameObject.AddComponent<ConfigurableJoint>();
+                    ConfigurableJoint Conf = Grabbing as ConfigurableJoint;
+                    Conf.autoConfigureConnectedAnchor = false;
+                    Vector3 Hold = hit.transform.InverseTransformPoint(hit.point);
+                    StartCoroutine(GrabHandle(hit.rigidbody,Hold));
+                }
             }
             return;
         }
@@ -70,10 +73,32 @@ public class ManipulationTool : MonoBehaviour
                 Conf.xMotion = ConfigurableJointMotion.Locked;
                 Conf.yMotion = ConfigurableJointMotion.Locked;
                 Conf.zMotion = ConfigurableJointMotion.Locked;
+
+                if (Object.TryGetComponent(out GATEProtocol _)) Object.isKinematic = false;
     }
 
     void DropIt()
     {
+            Transform T = Grabbing.transform;
+            Vector3 Rot = T.eulerAngles;
+            string X = T.position.x.ToString(),
+                   Y = T.position.y.ToString(),
+                   Z = T.position.z.ToString(),
+                   XR = Rot.x.ToString(),
+                   YR = Rot.y.ToString(),
+                   ZR = Rot.z.ToString();
+
+        if (Grabbing.gameObject.TryGetComponent(out ObjectFileInfo OFI))
+        {
+            OFI.AddTag("Position", new string[]{X, Y, Z});
+            OFI.AddTag("Rotation", new string[]{XR,YR,ZR});
+        }
+        else if (Grabbing.gameObject.TryGetComponent(out GATEProtocol GATE))
+        {
+            GATE.AddTag("Position", new string[]{X, Y, Z});
+            GATE.AddTag("Rotation", new string[]{XR,YR,ZR});
+            Grabbing.GetComponent<Rigidbody>().isKinematic = true;
+        }
         Destroy(Grabbing);
     }
 }

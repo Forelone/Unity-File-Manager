@@ -1,11 +1,11 @@
 using System;
 using System.Collections;
-using System.Diagnostics;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class ColorTool : MonoBehaviour
+public class BGColorTool : MonoBehaviour
 {
-    public string Description = "Colors things. \n0,0,0";
+    public string Description = "Colors folder backgrounds. \n0,0,0";
     public string Desc
     {
         get {return Description;}
@@ -41,9 +41,9 @@ public class ColorTool : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, MaxDistance) && 
         hit.transform != transform && 
-        hit.transform.TryGetComponent(out Renderer R))
+        hit.transform.TryGetComponent(out PathProtocol PP))
         {
-            R.material.color = ApplyColor;
+            PP.SetBGColor(ApplyColor);
             FireReady = false;
             Renderer.gameObject.SetActive(false);
             Renderer.material.color = Color.black;
@@ -53,6 +53,15 @@ public class ColorTool : MonoBehaviour
                 Renderer.gameObject.SetActive(false);
                 Renderer.material.color = Color.black;                
                 FireReady = false;   
+            }
+
+            if (hit.transform.TryGetComponent(out ObjectFileInfo OFI))
+            {
+         string R = ApplyColor.r.ToString(),
+                G = ApplyColor.g.ToString(),
+                B = ApplyColor.b.ToString(),
+                A = ApplyColor.a.ToString();
+                OFI.AddTag("BGColor",new string[]{R,G,B,A});
             }
         }
     }
@@ -143,7 +152,7 @@ public class ColorTool : MonoBehaviour
         {
             ApplyColor = color;
             FireReady = true;
-            Desc = $"Colors things. {R},{G},{B}";
+            Desc = $"Colors folder backgrounds. {R},{G},{B}";
         } 
     }
 

@@ -2,10 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ObjectFileInfo : MonoBehaviour
 {
+    [HideInInspector]
+    public PathProtocol.CustomFileSave CFS;
     [HideInInspector]
     public string Name, Extension, Path, DirPath;
     [HideInInspector]
@@ -95,5 +99,34 @@ public class ObjectFileInfo : MonoBehaviour
     {
         FileInfo FI = new FileInfo(Path);
         return FI;
+    }
+
+    public void AddTag(string Tag,string[] Vars)
+    {
+        CFS = CFS == null ? new PathProtocol.CustomFileSave() : CFS;
+        CFS.Tags = CFS.Tags == null ? new List<string>() : CFS.Tags;
+        CFS.Name = Name;
+        string T = Tag + ' ' + string.Join(' ',Vars);
+        
+        bool Exists = false;
+        for (int i = 0; i < CFS.Tags.Count; i++)
+        {
+            string[] Str = CFS.Tags[i].Split(' ');
+            if (Tag == Str[0])
+            {
+                CFS.Tags[i] = T;
+                Exists = true;
+                break;
+            } 
+            else continue;
+        }
+        if (!Exists) CFS.Tags.Add(T);
+    }
+
+    public void LoadTags(string[] Tags_)
+    {
+        CFS = CFS == null ? new PathProtocol.CustomFileSave() : CFS;
+        CFS.Tags = CFS.Tags ?? Tags_.ToList();
+        CFS.Name = Name;
     }
 }
