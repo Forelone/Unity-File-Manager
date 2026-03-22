@@ -14,7 +14,7 @@ public class MouseFollowScript : MonoBehaviour
 
     void Update()
     {
-        var mousePosition = Input.mousePosition;
-        RT.position = new Vector3(mousePosition.x, mousePosition.y, 0);
+        Vector2 TargetPos = Cursor.visible ? Input.mousePosition : new Vector2(Screen.width / 2, Screen.height / 2); 
+        RT.position = new Vector3(TargetPos.x, TargetPos.y, 0);
     }
 }
