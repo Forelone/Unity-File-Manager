@@ -262,7 +262,6 @@ public class PathProtocol : MonoBehaviour
                         Vars[0] = string.Empty;
                         string Path = string.Join(" ",Vars);
                         Path = Path.Trim().Replace("'","");
-                        print(Path);
 
                         Mesh mesh = FoundT.AddComponent<ModelFile>().GetMeshFromPath(Path);
 
@@ -309,6 +308,7 @@ public class PathProtocol : MonoBehaviour
                     break;
                 }
             }
+            FoundT.GetComponent<GATEProtocol>().LoadTags(Save.Tags.ToArray());
         }
     }
 

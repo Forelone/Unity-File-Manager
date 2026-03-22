@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -68,6 +69,13 @@ public class GATEProtocol : MonoBehaviour
             else continue;
         }
         if (!Exists) CDS_.Tags.Add(T);
+    }
+
+    public void LoadTags(string[] Tags_)
+    {
+        CDS_ = CDS_ == null ? new PathProtocol.CustomDirectorySave() : CDS_;
+        CDS_.Tags = CDS_.Tags ?? Tags_.ToList();
+        CDS_.Name = gameObject.transform.name;
     }
 
     public void ApplyCustomColor(Color C)

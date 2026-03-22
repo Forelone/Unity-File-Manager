@@ -40,6 +40,7 @@ public class ColorTool : MonoBehaviour
     {
         RaycastHit hit;
         bool HitSuccess = Physics.Raycast(transform.position, transform.forward, out hit, MaxDistance);
+        if (!HitSuccess) return;
         if (hit.transform == transform) return;
 
          string R = ApplyColor.r.ToString(),
