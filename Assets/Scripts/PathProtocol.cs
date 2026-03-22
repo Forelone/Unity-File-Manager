@@ -279,6 +279,20 @@ public class PathProtocol : MonoBehaviour
                         bool P = Vars[1] == "True";
                         AH.enabled = P;
                         break;
+                    case "Texture":
+                        Vars[0] = string.Empty;
+                        string IPath = string.Join(" ",Vars);
+                        IPath = IPath.Trim().Replace("'","");
+
+                        byte[] TxtData = File.ReadAllBytes(IPath);
+                        Texture2D Txt = new Texture2D(2,2);
+                        Txt.LoadImage(TxtData);
+                        Txt.Apply();
+                        Material ApplyMaterial = new Material(Shader.Find("Unlit/Texture"));
+                        ApplyMaterial.mainTexture = Txt;
+
+                        FoundT.GetComponent<Renderer>().material = ApplyMaterial;
+                        break;
                 }
             }
             FoundT.GetComponent<ObjectFileInfo>().LoadTags(FileSave.Tags.ToArray());

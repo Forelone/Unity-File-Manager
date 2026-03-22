@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 5751199898117547724}
   - component: {fileID: 7958600731596468006}
   - component: {fileID: 9040859058677221398}
-  - component: {fileID: 7513773904138614721}
+  - component: {fileID: 6514515471848328879}
   m_Layer: 0
-  m_Name: AudioHandler
+  m_Name: AudioFile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.000000014901161, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -5.6990404, y: 0.0545399, z: 0.00042232615}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -129,7 +129,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f76fb119116ba8f74ae30e9709315618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ASS: {fileID: 7958600731596468006}
 --- !u!82 &7958600731596468006
 AudioSource:
   m_ObjectHideFlags: 0
@@ -242,9 +241,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5751199898117547724}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
+        m_TargetAssemblyTypeName: AudioHandler, Assembly-CSharp
+        m_MethodName: Toggle
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -255,25 +254,13 @@ MonoBehaviour:
         m_CallState: 2
   AlternateUse:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5751199898117547724}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   RequiredUseDelay: 0
   RequiredAlternativeUseDelay: 0
-  DelayAfterUse: 0
-  AlternativeDelayAfterUse: 0
-  Debug: 1
---- !u!65 &7513773904138614721
+  DelayAfterUse: 1
+  AlternativeDelayAfterUse: 1
+  Debug: 0
+--- !u!65 &6514515471848328879
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -292,5 +279,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.0128, y: 0.0045600003, z: 0.0042000012}
-  m_Center: {x: 0.000027139205, y: -0.000081613776, z: 0.00008875318}
+  m_Size: {x: 1.28, y: 0.45600006, z: 0.42000014}
+  m_Center: {x: 0.0027139187, y: -0.008161381, z: 0.00887531}

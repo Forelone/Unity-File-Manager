@@ -6,7 +6,12 @@ using UnityEngine.Networking;
 public class AudioHandler : MonoBehaviour
 {
     ObjectFileInfo OFI;
-    [SerializeField] AudioSource ASS; //*Xaxxaxaxaxaxa
+    AudioSource ASS; //*Xaxxaxaxaxaxa
+
+    public void Toggle()
+    {
+        enabled = !enabled;
+    }
 
     void OnEnable() => StartCoroutine(EnableHandle());
 
@@ -20,6 +25,7 @@ public class AudioHandler : MonoBehaviour
     IEnumerator EnableHandle()
     {
         OFI = OFI ?? GetComponent<ObjectFileInfo>();
+        ASS = ASS ?? GetComponent<AudioSource>();
         if (ASS.clip == null)
         {
             //First we get full path
@@ -43,5 +49,5 @@ public class AudioHandler : MonoBehaviour
         }
         ASS.Play();
         OFI.AddTag("AF:Play",new string[]{true.ToString()});
-    }
+    } //This is the most stable code i've ever wrote. Damn.
 }
