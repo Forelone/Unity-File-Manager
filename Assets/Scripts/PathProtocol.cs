@@ -192,6 +192,7 @@ public class PathProtocol : MonoBehaviour
 
     public void ApplyCustomizationToGround(CustomDirectoryInsideSave CDIS,Transform ApplyTo)
     {
+        CurrentSave = CurrentSave ?? CDIS;
         foreach (var Tag in CDIS.GroundTags)
             {
                 string[] Vars = Tag.Split();
@@ -216,9 +217,13 @@ public class PathProtocol : MonoBehaviour
                         Color SetColor = new Color(float.Parse(Vars[1]),float.Parse(Vars[2]),float.Parse(Vars[3]),float.Parse(Vars[4]));
                         ApplyTo.GetComponent<Renderer>().material.color = SetColor;
                     break;
+
+                    case "BGColor":
+                        Color SetColor_ = new Color(float.Parse(Vars[1]),float.Parse(Vars[2]),float.Parse(Vars[3]),float.Parse(Vars[4]));
+                        SetBGColor(SetColor_);
+                    break;
                 }
             }
-        
     }
 
     private static void ApplyFileCustomizationToFiles(CustomDirectoryInsideSave CustomizationFile, List<ObjectFileInfo> FileTransforms)
@@ -336,7 +341,7 @@ public class PathProtocol : MonoBehaviour
     [System.Serializable]
     public class CustomDirectoryInsideSave
     {
-        public string[] GroundTags; //Position X Y Z
+        public List<string> GroundTags; //Position X Y Z
                               //Rotation X Y Z
                               //Color <RED 0-255> <GREEN 0-255> <BLUE 0-255>
                               //Material <PATH>
@@ -363,6 +368,27 @@ public class PathProtocol : MonoBehaviour
                               //Color <RED 0-255> <GREEN 0-255> <BLUE 0-255>
                               //Material <PATH>
                               //Model <PATH>
+    }
+
+    public void AddTag(string Tag,string[] Vars)
+    {
+        CurrentSave = CurrentSave ?? new CustomDirectoryInsideSave();
+        CurrentSave.GroundTags = CurrentSave.GroundTags ?? new List<string>();
+        string T = Tag + ' ' + string.Join(' ',Vars);
+        
+        bool Exists = false;
+        for (int i = 0; i < CurrentSave.GroundTags.Count; i++)
+        {
+            string[] Str = CurrentSave.GroundTags[i].Split(' ');
+            if (Tag == Str[0])
+            {
+                CurrentSave.GroundTags[i] = T;
+                Exists = true;
+                break;
+            } 
+            else continue;
+        }
+        if (!Exists) CurrentSave.GroundTags.Add(T);
     }
 }
 

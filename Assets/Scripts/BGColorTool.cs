@@ -38,6 +38,11 @@ public class BGColorTool : MonoBehaviour
 
     public void Apply()
     {
+         string R = ApplyColor.r.ToString(),
+                G = ApplyColor.g.ToString(),
+                B = ApplyColor.b.ToString(),
+                A = ApplyColor.a.ToString();
+
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, MaxDistance) && 
         hit.transform != transform && 
@@ -54,16 +59,13 @@ public class BGColorTool : MonoBehaviour
                 Renderer.material.color = Color.black;                
                 FireReady = false;   
             }
-
-            if (hit.transform.TryGetComponent(out ObjectFileInfo OFI))
-            {
-         string R = ApplyColor.r.ToString(),
-                G = ApplyColor.g.ToString(),
-                B = ApplyColor.b.ToString(),
-                A = ApplyColor.a.ToString();
-                OFI.AddTag("BGColor",new string[]{R,G,B,A});
-            }
         }
+
+        if (hit.transform.TryGetComponent(out GroundProtocol GP))
+        {
+            GP.AddTag("BGColor",new string[]{R,G,B,A});
+            GP.SetBGColor(ApplyColor);
+        }                              
     }
 
     public void Configure()

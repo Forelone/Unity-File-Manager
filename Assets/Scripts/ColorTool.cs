@@ -55,13 +55,19 @@ public class ColorTool : MonoBehaviour
                 FireReady = false;   
             }
 
-            if (hit.transform.TryGetComponent(out ObjectFileInfo OFI))
-            {
          string R = ApplyColor.r.ToString(),
                 G = ApplyColor.g.ToString(),
                 B = ApplyColor.b.ToString(),
                 A = ApplyColor.a.ToString();
+
+            if (hit.transform.TryGetComponent(out ObjectFileInfo OFI))
+            {
                 OFI.AddTag("Color",new string[]{R,G,B,A});
+            }
+
+            if (hit.transform.TryGetComponent(out GroundProtocol GP))
+            {
+                GP.AddTag("Color",new string[]{R,G,B,A});                
             }
         }
     }

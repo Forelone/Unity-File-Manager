@@ -46,9 +46,9 @@ public class PlayerMovement : MonoBehaviour
         if (DebugMode)
             Debug.DrawRay(Origin,Direction * GroundCheckDist,OnGround ? Color.green : Color.red);
 
-        if (hit.transform != null &&hit.transform.TryGetComponent(out PathProtocol PeePee))
+        if (hit.transform != null &&hit.transform.TryGetComponent(out GroundProtocol GP))
         {
-            Eyes.backgroundColor = PeePee.GetBGColor(); //I'm doing this here for not calling another Raycast cause of performance issues.
+            Eyes.backgroundColor = GP.GetBGColor(); //I'm doing this here for not calling another Raycast cause of performance issues.
         }
     }
 
