@@ -37,16 +37,20 @@ public class ModelTool : MonoBehaviour
     public void Paste()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position,transform.forward,out hit,MaxDistance) && ModelCopyPath != string.Empty)
-        {
-            hit.transform.GetOrAddComponent<ModelFile>().OverrideModel(ModelCopyPath);
+        bool HitSuccess = Physics.Raycast(transform.position,transform.forward,out hit,MaxDistance);
+        if (!HitSuccess) return;
+        if (ModelCopyPath == string.Empty) return;
 
-            if (hit.transform.TryGetComponent(out ObjectFileInfo OFI))
-                OFI.AddTag("Model",new string[]{$"'{ModelCopyPath}'"});
-            ModelCopyPath = string.Empty; 
-            Desc = $"{DefaultText} {ModelCopyPath}";
-            FireReady = false;
+        Mesh mesh = transform.AddComponent<ModelFile>().GetMeshFromPath(ModelCopyPath); 
+        if (hit.transform.TryGetComponent(out BoxCollider B)) {Destroy(B); hit.transform.AddComponent<MeshCollider>().convex = true;}
+        if (hit.transform.TryGetComponent(out MeshFilter MF)) MF.mesh = mesh;
+        if (hit.transform.TryGetComponent(out MeshCollider MC)) MC.sharedMesh = mesh;
+
+        if (hit.transform.TryGetComponent(out ObjectFileInfo OFI))
+        {
+            OFI.AddTag("Model",new string[]{$"'{ModelCopyPath}'"});
         }
+        FireReady = false;
     }
 
     public void Copy()

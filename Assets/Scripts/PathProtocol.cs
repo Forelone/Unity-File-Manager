@@ -11,6 +11,7 @@ using UnityEngine;
 using UnityEngine.Profiling;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
+using System.Text.RegularExpressions;
 
 public class PathProtocol : MonoBehaviour
 {
@@ -256,6 +257,18 @@ public class PathProtocol : MonoBehaviour
                     case "Color":
                         Color SetColor = new Color(float.Parse(Vars[1]), float.Parse(Vars[2]), float.Parse(Vars[3]), float.Parse(Vars[4]));
                         FoundT.GetComponent<Renderer>().material.color = SetColor;
+                        break;
+                    case "Model":
+                        Vars[0] = string.Empty;
+                        string Path = string.Join(" ",Vars);
+                        Path = Path.Trim().Replace("'","");
+                        print(Path);
+
+                        Mesh mesh = FoundT.AddComponent<ModelFile>().GetMeshFromPath(Path);
+
+                        if (FoundT.TryGetComponent(out BoxCollider B)) {Destroy(B); FoundT.AddComponent<MeshCollider>().convex = true;}
+                        if (FoundT.TryGetComponent(out MeshFilter MF)) MF.mesh = mesh;
+                        if (FoundT.TryGetComponent(out MeshCollider MC)) MC.sharedMesh = mesh;
                         break;
                 }
             }

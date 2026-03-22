@@ -18,6 +18,15 @@ public class ModelFile : MonoBehaviour
         return CustomPath;
     }
 
+    public Mesh GetMeshFromPath(string Path)
+    {
+        GameObject G = new OBJLoader().Load(Path);
+        Mesh ReturnMesh = G.GetComponentInChildren<MeshFilter>().mesh;
+        Destroy(G);
+        Destroy(this);
+        return ReturnMesh;
+    }
+
     IEnumerator CreateObject(string Path)
     {
         bool IsCustomPath = CustomPath != "";
