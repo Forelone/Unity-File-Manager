@@ -8,6 +8,7 @@ public class GATEProtocol : MonoBehaviour
     PathProtocol.CustomDirectorySave CDS_;
     public PathProtocol.CustomDirectorySave CDS { get { return CDS_; }}
     PathProtocol Peepee;
+    [SerializeField] Renderer CustomizableRenderer;
     public bool IsOpen = false;
     public string GatePath = "";
     void Start()
@@ -67,5 +68,16 @@ public class GATEProtocol : MonoBehaviour
             else continue;
         }
         if (!Exists) CDS_.Tags.Add(T);
+    }
+
+    public void ApplyCustomColor(Color C)
+    {
+        if (CustomizableRenderer == null)
+        {
+            GetComponentInChildren<Renderer>().material.color = C;
+            return;
+        }
+
+        CustomizableRenderer.material.color = C;
     }
 }

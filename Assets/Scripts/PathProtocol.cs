@@ -292,7 +292,7 @@ public class PathProtocol : MonoBehaviour
 
                     case "Color":
                         Color SetColor = new Color(float.Parse(Vars[1]), float.Parse(Vars[2]), float.Parse(Vars[3]), float.Parse(Vars[4]));
-                        FoundT.GetComponent<Renderer>().material.color = SetColor;
+                        FoundT.GetComponent<GATEProtocol>().ApplyCustomColor(SetColor);
                     break;
                 }
             }

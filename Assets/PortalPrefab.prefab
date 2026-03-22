@@ -292,9 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e58bd7ca2ae25550da94dea585ae3db6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CDS:
-    Name: 
-    Tags: []
+  CustomizableRenderer: {fileID: 7564464621567547516}
   IsOpen: 0
   GatePath: 
 --- !u!114 &2246034707786334568

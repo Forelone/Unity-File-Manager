@@ -28,7 +28,7 @@ public class ColorTool : MonoBehaviour
             Configure();
     }
 
-    [SerializeField] Renderer Renderer;
+    [SerializeField] Renderer HoloRender;
     [SerializeField] float MaxDistance;
     [SerializeField] Color ApplyColor;
 
@@ -39,36 +39,39 @@ public class ColorTool : MonoBehaviour
     public void Apply()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, MaxDistance) && 
-        hit.transform != transform && 
-        hit.transform.TryGetComponent(out Renderer Ren))
-        {
-            Ren.material.color = ApplyColor;
-            FireReady = false;
-            Renderer.gameObject.SetActive(false);
-            Renderer.material.color = Color.black;
-
-            if (Input.GetAxisRaw("Sprint") == 0)
-            {
-                Renderer.gameObject.SetActive(false);
-                Renderer.material.color = Color.black;                
-                FireReady = false;   
-            }
+        bool HitSuccess = Physics.Raycast(transform.position, transform.forward, out hit, MaxDistance);
+        if (hit.transform == transform) return;
 
          string R = ApplyColor.r.ToString(),
                 G = ApplyColor.g.ToString(),
                 B = ApplyColor.b.ToString(),
                 A = ApplyColor.a.ToString();
 
+        string[] Save = new string[]{R,G,B,A};
+
+        if (hit.transform.TryGetComponent(out Renderer Ren))
+        {
+            Ren.material.color = ApplyColor;
+
+            FireReady = false;
+            HoloRender.gameObject.SetActive(false);
+            HoloRender.material.color = Color.black;
+
             if (hit.transform.TryGetComponent(out ObjectFileInfo OFI))
             {
-                OFI.AddTag("Color",new string[]{R,G,B,A});
+                OFI.AddTag("Color",Save);
             }
 
             if (hit.transform.TryGetComponent(out GroundProtocol GP))
             {
-                GP.AddTag("Color",new string[]{R,G,B,A});                
+                GP.AddTag("Color",Save);                
             }
+        }
+
+        if (hit.transform.TryGetComponent(out GATEProtocol GATE))
+        {
+            GATE.AddTag("Color",Save);
+            GATE.ApplyCustomColor(ApplyColor);
         }
     }
 
@@ -83,7 +86,7 @@ public class ColorTool : MonoBehaviour
         Configuring = true;
 
         bool RedOK = false,BlueOK = false,GreenOK = false,ColorCreated = false;
-        Renderer.gameObject.SetActive(true);
+        HoloRender.gameObject.SetActive(true);
         int R = 0,G = 0,B = 0;
         while(!ColorCreated)
         {
@@ -152,7 +155,7 @@ public class ColorTool : MonoBehaviour
     void UpdateColor(int R,int G,int B,bool SetTo = false)
     {
         Color color = new Color((float)R / 255f,(float)G / 255f,(float)B / 255f);
-        Renderer.material.color = color;
+        HoloRender.material.color = color;
 
         if (SetTo)
         {
