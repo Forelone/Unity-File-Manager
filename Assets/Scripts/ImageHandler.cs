@@ -19,8 +19,10 @@ public class ImageHandler : MonoBehaviour
             if (PathToFile != value)
             {
                 PathToFile = value;
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 DisplayPictureAsync();
-            }
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            } //WITH THE POWER OF FLEX TAPE, I SAWED THIS CODE IN HALF!
         }
     }
 
@@ -35,7 +37,9 @@ public class ImageHandler : MonoBehaviour
 
                 if (enabled == true)
                 {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                     DisplayPictureAsync(); //WHAT COULD GO WRONG :DDD ????
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 }
                 else
                     ErasePicture();
@@ -62,6 +66,7 @@ public class ImageHandler : MonoBehaviour
         }
         else
         Debug.LogError("Something went wrong while trying to load this Image.");
+        OFI.AddTag("IMG:Open", new string[]{true.ToString()});
     }
 
     static Task<byte[]> GetTextureDataAsync(string Path)
@@ -72,5 +77,6 @@ public class ImageHandler : MonoBehaviour
     void ErasePicture()
     {
         Destroy(ImageRen.material.mainTexture);
+        OFI.AddTag("IMG:Open", new string[]{false.ToString()});
     }
 }

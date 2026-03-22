@@ -269,6 +269,16 @@ public class PathProtocol : MonoBehaviour
                         if (FoundT.TryGetComponent(out MeshFilter MF)) MF.mesh = mesh;
                         if (FoundT.TryGetComponent(out MeshCollider MC)) MC.sharedMesh = mesh;
                         break;
+                    case "IMG:Open":
+                        var IH = FoundT.GetComponent<ImageHandler>(); //It's impossible to not have this. if you encounter NullReferenceException, you manipulated the files. go fix them.
+                        bool E = Vars[1] == "True";
+                        IH.ImageEnabled = E;
+                        break;
+                    case "AF:Play":
+                        var AH = FoundT.GetComponent<AudioHandler>();
+                        bool P = Vars[1] == "True";
+                        AH.enabled = P;
+                        break;
                 }
             }
             FoundT.GetComponent<ObjectFileInfo>().LoadTags(FileSave.Tags.ToArray());
