@@ -6,12 +6,14 @@ public class PlayerArms : MonoBehaviour
 {
     [SerializeField] Transform LeftArm,RightArm,Head;
     PlayerHands PHands;
+    PlayerInput PInput;
     CharacterController CC;
     Camera Eye;
 
     void Start()
     {
         PHands = GetComponent<PlayerHands>();
+        PInput = GetComponent<PlayerInput>();
         CC = GetComponent<CharacterController>();
         Eye = GetComponentInChildren<Camera>();
     }
@@ -25,7 +27,7 @@ public class PlayerArms : MonoBehaviour
         Vector3 ODirection = -transform.up;
         if (PHands.IsHandFull)
         {
-            Ray CamRay = Eye.ScreenPointToRay(Input.mousePosition);
+            Ray CamRay = PInput.GetEyeRay();
             Direction = PHands.Inspecting && !PHands.IsOHandFull ? CamRay.direction : Head.forward;
         }
         else
@@ -40,7 +42,7 @@ public class PlayerArms : MonoBehaviour
         if (PHands.IsOHandFull)
         {
             Vector3 MousePos = Input.mousePosition;
-            Ray CamRay = PHands.Eye_.ScreenPointToRay(MousePos);
+            Ray CamRay = PInput.GetEyeRay();
             ODirection = CamRay.direction;
         }
         else

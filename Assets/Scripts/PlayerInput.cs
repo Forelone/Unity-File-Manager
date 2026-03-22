@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     public event Action<Vector3> OnMovement;
+    Camera Eye;
     private Vector3 Movement;
     public Vector3 DesiredMovement 
     { 
@@ -85,6 +86,7 @@ public class PlayerInput : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        Eye = transform.GetComponentInChildren<Camera>();
     }
 
     public bool IsPlayerLefty { get {return PlayerPrefs.GetInt("Lefty") > 0; }}
@@ -123,6 +125,8 @@ public class PlayerInput : MonoBehaviour
         Cursor.lockState = Inspect && InspectButtonUnlocksMouse ? CursorLockMode.Confined : CursorLockMode.Locked;
         Cursor.visible = Inspect && InspectButtonUnlocksMouse;
     }
+
+    public Ray GetEyeRay() => Cursor.visible ? Eye.ScreenPointToRay(Input.mousePosition) : new Ray(Eye.transform.position,Eye.transform.forward);
 
     void OnDisable()
     {

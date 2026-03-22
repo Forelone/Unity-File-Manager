@@ -10,9 +10,6 @@ public class PlayerHands : MonoBehaviour
     [SerializeField] Transform RightHand, LeftHand;
     PlayerInput PInput;
     [SerializeField] float EyeDist = 2f;
-    Camera Eye;
-    public Camera Eye_
-    { get { return Eye; } }
     [SerializeField] LayerMask HandInteractLayer;
 
     [SerializeField] bool DebugMode;
@@ -22,7 +19,6 @@ public class PlayerHands : MonoBehaviour
     void Awake()
     {
         PInput = GetComponent<PlayerInput>();
-        Eye = transform.GetComponentInChildren<Camera>();
     }
 
     void OnEnable()
@@ -55,7 +51,7 @@ public class PlayerHands : MonoBehaviour
     {
         if (DebugMode)
         {
-            Ray ray = Eye.ScreenPointToRay(Input.mousePosition);
+            Ray ray = PInput.GetEyeRay();
             RaycastHit hit;
             bool A = Physics.Raycast(ray,out hit,EyeDist,HandInteractLayer);
             Color color = Color.white;
@@ -182,7 +178,7 @@ public class PlayerHands : MonoBehaviour
     public (bool,RaycastHit) EyeRay()
     {
         Vector3 MousePos = Input.mousePosition;
-        Ray CamRay = Eye.ScreenPointToRay(MousePos);
+        Ray CamRay = PInput.GetEyeRay();
         bool DidHit = Physics.Raycast(CamRay,out RaycastHit hit,EyeDist,HandInteractLayer);
         return (DidHit,hit);
     }
