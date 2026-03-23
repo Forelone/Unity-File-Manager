@@ -39,10 +39,11 @@ public string Description = "Applies textures to files. \nClick on a image file 
         if (!HitSuccess) return;
         if (TextureCopyFile == null) return;
 
-        if (hit.transform.TryGetComponent(out Renderer R))
-        {
             Material ApplyMaterial = new Material(Shader.Find("Unlit/Texture"));
             ApplyMaterial.mainTexture = TextureCopyFile.transform.GetComponent<Renderer>().material.mainTexture;
+            
+        if (hit.transform.TryGetComponent(out Renderer R))
+        {
 
             R.material = ApplyMaterial;
         }
@@ -50,6 +51,11 @@ public string Description = "Applies textures to files. \nClick on a image file 
         if (hit.transform.TryGetComponent(out ObjectFileInfo OFI))
         {
             OFI.AddTag("Texture",new string[]{$"'{TextureCopyFile.Path}'"});
+        }
+        if (hit.transform.TryGetComponent(out GATEProtocol GATE))
+        {
+            GATE.ApplyCustomTexture(ApplyMaterial);
+            GATE.AddTag("Texture",new string[]{$"'{TextureCopyFile.Path}'"});
         }
         FireReady = false;
     }

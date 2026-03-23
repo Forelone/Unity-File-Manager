@@ -242,6 +242,8 @@ GameObject:
   - component: {fileID: 76276376}
   - component: {fileID: 76276384}
   - component: {fileID: 76276383}
+  - component: {fileID: 76276385}
+  - component: {fileID: 76276386}
   m_Layer: 0
   m_Name: Tools
   m_TagString: Untagged
@@ -496,6 +498,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HitDistance: 5
+--- !u!114 &76276385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76276374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb36b4f43fe823cb9a3f1df075b6408b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Description: "Applies textures to files. \nClick on a image file to copy"
+  MaxDistance: 5
+--- !u!114 &76276386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76276374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 363d88ff891a3e109a9e34fd0ed462af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Description: (Un-)Freezes file objects.
+  MaxDistance: 5
 --- !u!1 &213889288
 GameObject:
   m_ObjectHideFlags: 0
@@ -652,6 +682,8 @@ MonoBehaviour:
   - {fileID: 76276378}
   - {fileID: 76276377}
   - {fileID: 76276376}
+  - {fileID: 76276385}
+  - {fileID: 76276386}
 --- !u!114 &468069961
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -293,6 +293,10 @@ public class PathProtocol : MonoBehaviour
 
                         FoundT.GetComponent<Renderer>().material = ApplyMaterial;
                         break;
+                    case "Kinematic":
+                        bool K = Vars[1] == "True";
+                        FoundT.GetComponent<Rigidbody>().isKinematic = K;
+                        break;
                 }
             }
             FoundT.GetComponent<ObjectFileInfo>().LoadTags(FileSave.Tags.ToArray());

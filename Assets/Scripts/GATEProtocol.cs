@@ -88,4 +88,15 @@ public class GATEProtocol : MonoBehaviour
 
         CustomizableRenderer.material.color = C;
     }
+
+    public void ApplyCustomTexture(Material M)
+    {
+        if (CustomizableRenderer == null)
+        {
+            GetComponentInChildren<Renderer>().material = M;
+            return;
+        }
+
+        CustomizableRenderer.material = M;
+    }
 }

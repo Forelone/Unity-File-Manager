@@ -59,6 +59,7 @@ public class ManipulationTool : MonoBehaviour
         CanGrab = true;
     }
     
+    bool WasKinematicBefore = false;
     void GrabIt(Rigidbody Object, Vector3 HoldPoint)
     {
                 Grabbing = Object.AddComponent<ConfigurableJoint>();
@@ -74,7 +75,11 @@ public class ManipulationTool : MonoBehaviour
                 Conf.yMotion = ConfigurableJointMotion.Locked;
                 Conf.zMotion = ConfigurableJointMotion.Locked;
 
-                if (Object.TryGetComponent(out GATEProtocol _)) Object.isKinematic = false;
+                if (Object.isKinematic)
+                {
+                    WasKinematicBefore = Object.isKinematic;
+                    Object.isKinematic = false;
+                }
     }
 
     void DropIt()
@@ -97,8 +102,9 @@ public class ManipulationTool : MonoBehaviour
         {
             GATE.AddTag("Position", new string[]{X, Y, Z});
             GATE.AddTag("Rotation", new string[]{XR,YR,ZR});
-            Grabbing.GetComponent<Rigidbody>().isKinematic = true;
         }
+        Grabbing.GetComponent<Rigidbody>().isKinematic = WasKinematicBefore;
+        
         Destroy(Grabbing);
     }
 }
