@@ -11,7 +11,7 @@ public class ToolGunEffect : MonoBehaviour
     
     void Start()
     {
-        LR = GetComponent<LineRenderer>();
+        LR = GetComponentInChildren<LineRenderer>();
         FollowPoint = transform.position;
     }
 
