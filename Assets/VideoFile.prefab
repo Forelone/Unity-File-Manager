@@ -230,6 +230,6 @@ MonoBehaviour:
         m_CallState: 2
   RequiredUseDelay: 0
   RequiredAlternativeUseDelay: 0
-  DelayAfterUse: 0
-  AlternativeDelayAfterUse: 0
-  Debug: 1
+  DelayAfterUse: 1
+  AlternativeDelayAfterUse: 1
+  Debug: 0

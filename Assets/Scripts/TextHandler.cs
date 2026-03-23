@@ -1,16 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TextHandler : MonoBehaviour
 {
-    TextMesh TM;
+    Text TM;
 
     void OnEnable()
     {
-        TM = GetComponentInChildren<TextMesh>();
+        TM = GetComponentInChildren<Text>();
         //First we get full path
         PathProtocol PP = GetComponentInParent<PathProtocol>();
         string Name = transform.name;

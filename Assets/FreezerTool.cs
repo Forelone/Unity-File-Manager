@@ -21,8 +21,6 @@ public class FreezerTool : MonoBehaviour
     public event Action OnDescriptionChange;
 
     [SerializeField] float MaxDistance;
-    Vector3 ApplySize;
-    bool FireReady = false;
 
     public void Fire()
     {

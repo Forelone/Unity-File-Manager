@@ -87,6 +87,7 @@ public class PlayerInput : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Eye = transform.GetComponentInChildren<Camera>();
+        Sans_ = PlayerPrefs.GetFloat("Sens",1);
     }
 
     public bool IsPlayerLefty { get {return PlayerPrefs.GetInt("Lefty") > 0; }}
@@ -100,10 +101,23 @@ public class PlayerInput : MonoBehaviour
     }
 
     [SerializeField] bool InspectButtonUnlocksMouse = true;
+    float Sans_ = 1;
+    public float Sens
+    {
+        get => Sans_; //Big Brain
+        set
+        {
+            if (Sans_ != value)
+            {
+                Sans_ = value;
+                PlayerPrefs.SetFloat("Sens",value);
+            }
+        }
+    }
 
     void Update() //Much, Much better.
     {
-        float X = Input.GetAxis("Mouse X"), Y = Input.GetAxis("Mouse Y");
+        float X = Input.GetAxis("Mouse X") * Sens, Y = Input.GetAxis("Mouse Y") * Sens;
 
         DesiredRotation = new Vector2(X,Y);
         

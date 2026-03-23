@@ -138,6 +138,13 @@ public class ConsoleBook : MonoBehaviour
                 Debug.LogWarning("Quitting...");
                 Application.Quit();
             break;
+
+            case "sens":
+                if (Vars != null && float.TryParse(Vars[0],out float Sens))
+                PI.Sens = Sens;
+                else
+                PI.Sens = 1;
+            break;
         }
     }
 

@@ -20,8 +20,6 @@ public class SaveTool : MonoBehaviour
     }
     public event Action OnDescriptionChange;
     [SerializeField] float MaxDistance = 5;
-    Vector3 ApplySize;
-    bool FireReady = false;
 
     public void Fire()
     {

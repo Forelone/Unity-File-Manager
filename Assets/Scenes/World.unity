@@ -2393,6 +2393,14 @@ MonoBehaviour:
       Usage: >tsize <NUMBER>'
   - Name: quit
     CommandDescription: Quits the app without saving anything.
+  - Name: sens
+    CommandDescription: 'Changes mouse sensitivity to X
+
+
+      Usage: sens <NUMBER>
+
+      Usage2:
+      sens <FLOAT>'
 --- !u!114 &6503267496999784252
 MonoBehaviour:
   m_ObjectHideFlags: 0
