@@ -16,6 +16,8 @@ public class MM_Send : MonoBehaviour
 
     IEnumerator LoadSceneHandle(string Path)
     {
+        if (Path[Path.Length - 1] != '/') Path += '/';
+
         SceneManager.LoadScene("World");
 
         while (SceneManager.GetActiveScene().name != "World" && !SceneManager.GetActiveScene().isLoaded) yield return new WaitForFixedUpdate();
@@ -28,7 +30,6 @@ public class MM_Send : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
-        print( FM);
         FileProtocol FP = FM.GetComponent<FileProtocol>();
         FP.StartPath = Path;
         FP.enabled = true;

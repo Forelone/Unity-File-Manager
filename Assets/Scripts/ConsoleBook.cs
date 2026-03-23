@@ -13,7 +13,7 @@ public class ConsoleBook : MonoBehaviour
     string[] LastLogs;
     [SerializeField] TextMesh Logs,CommandLine;
     [SerializeField] Command[] Commands;
-    void Start()
+    void Awake()
     {
         LastLogs = new string[MaxIndex];
         Application.logMessageReceived += Log;
@@ -133,6 +133,11 @@ public class ConsoleBook : MonoBehaviour
                     PlayerPrefs.SetFloat("tsize",Size / 1000);
                 }
             break;
+
+            case "quit":
+                Debug.LogWarning("Quitting...");
+                Application.Quit();
+            break;
         }
     }
 
@@ -165,6 +170,7 @@ public class ConsoleBook : MonoBehaviour
 
     void DrawText()
     {
+        if (Logs == null) {Debug.LogError("Logs are not present!",gameObject); return;}
         string Text = string.Empty;
 
         foreach (var Log in LastLogs)

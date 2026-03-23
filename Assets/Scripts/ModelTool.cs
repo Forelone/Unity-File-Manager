@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class ModelTool : MonoBehaviour
 {
+    [TextArea]
     public string Description = "Colors things. \n0,0,0";
     public string Desc
     {

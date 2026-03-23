@@ -70,7 +70,7 @@ public class FileProtocol : MonoBehaviour
         PathProtocol FoundPeePee = CurrentlyOpenFolders.Find(x => x.GetPath() == gatePath);
         if (FoundPeePee != null)
         {
-            FoundPeePee.SaveAndDestroySelf();
+            FoundPeePee.Save();
             CurrentlyOpenFolders.Remove(FoundPeePee);
         }
         else

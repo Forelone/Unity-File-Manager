@@ -1,17 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Xml;
 using Unity.VisualScripting;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.Profiling;
-using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
-using System.Text.RegularExpressions;
 
 public class PathProtocol : MonoBehaviour
 {
@@ -154,7 +147,7 @@ public class PathProtocol : MonoBehaviour
         return FileTransforms;
     }
 
-    public void SaveAndDestroySelf()
+    public void Save(bool AndDestroySelf = true)
     {
         CustomDirectoryInsideSave CDI_Save = CurrentSave != null ? CurrentSave : new CustomDirectoryInsideSave(); //If a tool has manipulated the ground. 
         // this will be created already.
@@ -180,7 +173,10 @@ public class PathProtocol : MonoBehaviour
         catch (System.Exception Err) 
         {Debug.LogError(Err);/* Deez nuts */}
 
+        if (AndDestroySelf)
         Destroy(gameObject);
+
+        print("Successfully saved!");
     }
 
     public void SetBGColor(Color applyColor)

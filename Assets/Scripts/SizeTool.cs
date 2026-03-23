@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class SizeTool : MonoBehaviour
 {
+    [TextArea]
     public string Description = "Colors things. \n0,0,0";
     public string Desc
     {
@@ -50,6 +51,8 @@ public class SizeTool : MonoBehaviour
                 Z = ApplySize.z.ToString();
                 OFI.AddTag("Size",new string[]{X,Y,Z});
             }
+
+            Desc = "Sizes files and folders.";
         }
     }
 
@@ -69,9 +72,9 @@ public class SizeTool : MonoBehaviour
         float X,Y,Z;
         while (!Input.GetKey(KeyCode.Escape))
         {
-            AddText("Please input x value and press Keypad Enter:");
+            AddText("Please input x value and press Enter:");
             string XStr = "0";
-            while (!Input.GetKey(KeyCode.KeypadEnter))
+            while (!Input.GetKey(KeyCode.Return))
             {
                 if (Input.anyKey)
                 {
@@ -79,14 +82,14 @@ public class SizeTool : MonoBehaviour
                 }
                 yield return new WaitUntil(() => Input.anyKey);
             }
-            yield return new WaitUntil(() => !Input.GetKey(KeyCode.KeypadEnter));
+            yield return new WaitUntil(() => !Input.GetKey(KeyCode.Return));
             if (!float.TryParse(XStr,out X)) { ClearText(); continue;}
             else {}
             ClearText();
             
-            AddText("Please input y value and press Keypad Enter:");
+            AddText("Please input y value and press Enter:");
             string YStr = "0";
-            while (!Input.GetKey(KeyCode.KeypadEnter))
+            while (!Input.GetKey(KeyCode.Return))
             {
                 if (Input.anyKey)
                 {
@@ -94,14 +97,14 @@ public class SizeTool : MonoBehaviour
                 }
                 yield return new WaitUntil(() => Input.anyKey);
             }
-            yield return new WaitUntil(() => !Input.GetKey(KeyCode.KeypadEnter));
+            yield return new WaitUntil(() => !Input.GetKey(KeyCode.Return));
             if (!float.TryParse(YStr,out Y)) { ClearText(); continue;}
             else {}
             ClearText();
 
-            AddText("Please input z value and press Keypad Enter:");
+            AddText("Please input z value and press Enter:");
             string ZStr = "0";
-            while (!Input.GetKey(KeyCode.KeypadEnter))
+            while (!Input.GetKey(KeyCode.Return))
             {
                 if (Input.anyKey)
                 {
@@ -109,7 +112,7 @@ public class SizeTool : MonoBehaviour
                 }
                 yield return new WaitUntil(() => Input.anyKey);
             }
-            yield return new WaitUntil(() => !Input.GetKey(KeyCode.KeypadEnter));
+            yield return new WaitUntil(() => !Input.GetKey(KeyCode.Return));
             if (!float.TryParse(ZStr,out Z)) { ClearText(); continue;}
             else {
                 ApplySize = new Vector3(X,Y,Z);
@@ -128,6 +131,6 @@ public class SizeTool : MonoBehaviour
 
     void ClearText() => Desc = string.Empty;
 
-    void ResetText() => Desc = $"Sizes things. \n\nLMB = Configure (if not)\nSize it. {ApplySize.x}, {ApplySize.y}, {ApplySize.z}";
+    void ResetText() => Desc = $"Sizes things.\nApply Size:\n {ApplySize.x}, {ApplySize.y}, {ApplySize.z}";
 
 }

@@ -243,6 +243,7 @@ GameObject:
   - component: {fileID: 76276384}
   - component: {fileID: 76276385}
   - component: {fileID: 76276386}
+  - component: {fileID: 76276387}
   m_Layer: 0
   m_Name: Tools
   m_TagString: Untagged
@@ -280,7 +281,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8ff95576a302ce4e98a82adef9a352c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Description: 
+  Description: "Applies a model \nmesh to a file\n\nAim and fire at model file\nthen
+    to a object to apply"
   MaxDistance: 5
 --- !u!114 &76276377
 MonoBehaviour:
@@ -294,7 +296,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cf598a46318940339829747c3dab657, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Description: "Sizes things. \n1,1,1"
+  Description: 'Sizes Things
+
+
+    Fire to start configuring
+
+    after configuration,
+
+    aim
+    at a object to scale.'
   MaxDistance: 5
 --- !u!114 &76276378
 MonoBehaviour:
@@ -308,8 +318,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42a41dba5c98a8a19859f484961b178a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Description: "Colors folder backgrounds. \n0,0,0"
-  DebugMode: 1
+  Description: 'Colors background.
+
+
+    Fire to start configuring.
+
+    after configuration,
+
+    fire
+    at ground to color
+
+    background when step.'
+  DebugMode: 0
   Renderer: {fileID: 213889291}
   MaxDistance: 5
   ApplyColor: {r: 0, g: 0, b: 0, a: 0}
@@ -328,7 +348,7 @@ MonoBehaviour:
   Description: 'Colors files.
 
 
-    M1 to start configuring.
+    Fire to start configuring.
 
     after configuration,
 
@@ -336,7 +356,7 @@ MonoBehaviour:
     at a portal or file
 
     to color it.'
-  DebugMode: 1
+  DebugMode: 0
   HoloRender: {fileID: 213889291}
   MaxDistance: 5
   ApplyColor: {r: 0, g: 0, b: 0, a: 0}
@@ -417,7 +437,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb36b4f43fe823cb9a3f1df075b6408b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Description: "Applies textures to files. \nClick on a image file to copy"
+  Description: "Applies textures to files. \n\nFire on a image file to copy\nthen
+    on a object to apply"
   MaxDistance: 5
 --- !u!114 &76276386
 MonoBehaviour:
@@ -431,7 +452,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 363d88ff891a3e109a9e34fd0ed462af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Description: (Un-)Freezes file objects.
+  Description: "(Un-)Freezes file objects.\n\nAim and fire on a \nphysics object"
+  MaxDistance: 5
+--- !u!114 &76276387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76276374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0eff32a6bb16ab968b57b04aeb82972, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Description: "Saves Directory \nconfiguration\nFired At.\n\nAim and fire at a \ndirectory
+    to\nsave its configuration.\n\nNote: Closed portals \nauto-save\nyour configuration"
   MaxDistance: 5
 --- !u!1 &213889288
 GameObject:
@@ -591,6 +627,7 @@ MonoBehaviour:
   - {fileID: 76276376}
   - {fileID: 76276385}
   - {fileID: 76276386}
+  - {fileID: 76276387}
 --- !u!114 &468069961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2354,6 +2391,8 @@ MonoBehaviour:
     CommandDescription: 'Changes text size (default: 5)
 
       Usage: >tsize <NUMBER>'
+  - Name: quit
+    CommandDescription: Quits the app without saving anything.
 --- !u!114 &6503267496999784252
 MonoBehaviour:
   m_ObjectHideFlags: 0

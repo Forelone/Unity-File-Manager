@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class BGColorTool : MonoBehaviour
 {
+    [TextArea]
     public string Description = "Colors folder backgrounds. \n0,0,0";
     public string Desc
     {
@@ -59,13 +60,19 @@ public class BGColorTool : MonoBehaviour
                 Renderer.material.color = Color.black;                
                 FireReady = false;   
             }
+            UpdateColor(0,0,0);                      
         }
 
         if (hit.transform.TryGetComponent(out GroundProtocol GP))
         {
             GP.AddTag("BGColor",new string[]{R,G,B,A});
             GP.SetBGColor(ApplyColor);
-        }                              
+
+            FireReady = false;
+            Renderer.gameObject.SetActive(false);
+            Renderer.material.color = Color.black;
+            UpdateColor(0,0,0);                      
+        }        
     }
 
     public void Configure()
@@ -86,7 +93,7 @@ public class BGColorTool : MonoBehaviour
             string Str = string.Empty;
             if (!RedOK)
             {
-                var S = "Please enter RED color value (0-255)\n and press 'Submit' key."; 
+                var S = "Please enter RED color\n value (0-255) from keypad\n and press 'Submit' key."; 
                 Desc = S;
                 while (Input.GetAxisRaw("Submit") == 0)
                 {
@@ -105,7 +112,7 @@ public class BGColorTool : MonoBehaviour
             Str = string.Empty;
             if (!BlueOK)
             {
-                var S = "Please enter BLUE color value (0-255)\n and press 'Submit' key."; 
+                var S = "Please enter BLUE color\n value (0-255) from keypad\n and press 'Submit' key."; 
                 Desc = S;
                 while (Input.GetAxisRaw("Submit") == 0)
                 {
@@ -124,7 +131,7 @@ public class BGColorTool : MonoBehaviour
             Str = string.Empty;
             if (!GreenOK)
             {
-                var S = "Please enter GREEN color value (0-255)\n and press 'Submit' key."; 
+                var S = "Please enter GREEN color\n value (0-255) from keypad\n and press 'Submit' key."; 
                 Desc = S;
                 while (Input.GetAxisRaw("Submit") == 0)
                 {
@@ -150,12 +157,16 @@ public class BGColorTool : MonoBehaviour
         Color color = new Color((float)R / 255f,(float)G / 255f,(float)B / 255f);
         Renderer.material.color = color;
 
+        FireReady = SetTo;
         if (SetTo)
         {
             ApplyColor = color;
-            FireReady = true;
-            Desc = $"Colors folder backgrounds. {R},{G},{B}";
+            Desc = $"Colors directory backgrounds.\nCurrent Setting:{R},{G},{B}";
         } 
+        else
+        {
+            Desc = $"Colors directory backgrounds.";
+        }
     }
 
 }

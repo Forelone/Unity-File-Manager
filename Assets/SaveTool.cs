@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FreezerTool : MonoBehaviour
+public class SaveTool : MonoBehaviour
 {
-    [TextArea]
-    public string Description = "Colors things. \n0,0,0";
+        [TextArea]
+    public string Description = "";
     public string Desc
     {
         get {return Description;}
@@ -19,8 +19,7 @@ public class FreezerTool : MonoBehaviour
         }
     }
     public event Action OnDescriptionChange;
-
-    [SerializeField] float MaxDistance;
+    [SerializeField] float MaxDistance = 5;
     Vector3 ApplySize;
     bool FireReady = false;
 
@@ -32,13 +31,12 @@ public class FreezerTool : MonoBehaviour
     public void Apply()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, MaxDistance) && hit.rigidbody != null)
+        if (Physics.Raycast(transform.position, transform.forward, out hit, MaxDistance))
         {
-            hit.rigidbody.isKinematic = !hit.rigidbody.isKinematic;
-
-            if (hit.rigidbody.TryGetComponent(out ObjectFileInfo OFI))
+            if (hit.transform.TryGetComponent(out GroundProtocol GP))
             {
-                OFI.AddTag("Kinematic",new string[]{hit.rigidbody.isKinematic.ToString()});
+                GP.Save();
+                print("Trying to save..");
             }
         }
     }

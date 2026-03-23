@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TextureTool : MonoBehaviour
 {
+    [TextArea]
 public string Description = "Applies textures to files. \nClick on a image file to copy";
     public string Desc
     {

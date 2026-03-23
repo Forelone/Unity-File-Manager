@@ -13,4 +13,5 @@ public class GroundProtocol : MonoBehaviour
 
     public Color GetBGColor() => PP.GetBGColor();
     public void SetBGColor(Color C) => PP.SetBGColor(C);
+    public void Save() => PP.Save(false);
 }
