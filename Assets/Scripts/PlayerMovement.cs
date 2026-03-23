@@ -50,6 +50,8 @@ public class PlayerMovement : MonoBehaviour
         {
             Eyes.backgroundColor = GP.GetBGColor(); //I'm doing this here for not calling another Raycast cause of performance issues.
         }
+
+        if (transform.position.y < -100) transform.position = Vector3.zero;
     }
 
     public void HandleMovement(Vector3 NewMovement)

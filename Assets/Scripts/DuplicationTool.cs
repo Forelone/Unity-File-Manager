@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class DuplicationTool : MonoBehaviour
 {
+    [TextArea]
     public string Description = "Copies files.";
     public event Action OnDescriptionChange;
     public string Desc

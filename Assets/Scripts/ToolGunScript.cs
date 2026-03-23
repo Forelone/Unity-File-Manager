@@ -25,6 +25,7 @@ public class ToolGunScript : MonoBehaviour
         {
             ComponentNames[i] = $"{i} - {Tools[i].GetType()}";
         }
+        UpdateTexts();
     }
 
     Action[] actions;

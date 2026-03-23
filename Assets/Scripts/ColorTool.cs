@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ColorTool : MonoBehaviour
 {
+    [TextArea]
     public string Description = "Colors things. \n0,0,0";
     public string Desc
     {
@@ -74,6 +75,8 @@ public class ColorTool : MonoBehaviour
             GATE.AddTag("Color",Save);
             GATE.ApplyCustomColor(ApplyColor);
         }
+
+        UpdateColor(0,0,0);
     }
 
     public void Configure()
@@ -94,7 +97,7 @@ public class ColorTool : MonoBehaviour
             string Str = string.Empty;
             if (!RedOK)
             {
-                var S = "Please enter RED color value (0-255)\n and press 'Submit' key."; 
+                var S = "Please enter RED color\n value (0-255) from keypad\n and press 'Submit' key."; 
                 Desc = S;
                 while (Input.GetAxisRaw("Submit") == 0)
                 {
@@ -113,7 +116,7 @@ public class ColorTool : MonoBehaviour
             Str = string.Empty;
             if (!BlueOK)
             {
-                var S = "Please enter BLUE color value (0-255)\n and press 'Submit' key."; 
+                var S = "Please enter BLUE color\n value (0-255) from keypad\n and press 'Submit' key."; 
                 Desc = S;
                 while (Input.GetAxisRaw("Submit") == 0)
                 {
@@ -132,7 +135,7 @@ public class ColorTool : MonoBehaviour
             Str = string.Empty;
             if (!GreenOK)
             {
-                var S = "Please enter GREEN color value (0-255)\n and press 'Submit' key."; 
+                var S = "Please enter GREEN color\n value (0-255) from keypad\n and press 'Submit' key."; 
                 Desc = S;
                 while (Input.GetAxisRaw("Submit") == 0)
                 {
@@ -158,12 +161,16 @@ public class ColorTool : MonoBehaviour
         Color color = new Color((float)R / 255f,(float)G / 255f,(float)B / 255f);
         HoloRender.material.color = color;
 
+        FireReady = SetTo;
         if (SetTo)
         {
             ApplyColor = color;
-            FireReady = true;
-            Desc = $"Colors things. {R},{G},{B}";
+            Desc = $"Colors files and portals.\nCurrent Setting:{R},{G},{B}";
         } 
+        else
+        {
+            Desc = $"Colors files and portals.";
+        }
     }
 
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class ManipulationTool : MonoBehaviour
 {
+    [TextArea]
     public string Description;
 
     Joint Grabbing;

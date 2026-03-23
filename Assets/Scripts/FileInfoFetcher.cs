@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class FileInfoFetcher : MonoBehaviour
 {
+    [TextArea]
     public string Description;
     public event Action OnDescriptionChange;
     public string Desc
