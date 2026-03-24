@@ -2401,6 +2401,8 @@ MonoBehaviour:
 
       Usage2:
       sens <FLOAT>'
+  - Name: menu
+    CommandDescription: Returns back to menu
 --- !u!114 &6503267496999784252
 MonoBehaviour:
   m_ObjectHideFlags: 0
