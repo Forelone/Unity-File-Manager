@@ -6,6 +6,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 public class ConsoleBook : MonoBehaviour
 {
@@ -144,6 +145,11 @@ public class ConsoleBook : MonoBehaviour
                 PI.Sens = Sens;
                 else
                 PI.Sens = 1;
+            break;
+
+            case "menu":
+                Debug.LogWarning("Returning to menu...");
+                SceneManager.LoadScene(0);
             break;
         }
     }

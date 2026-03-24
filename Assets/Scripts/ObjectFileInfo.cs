@@ -42,7 +42,8 @@ public class ObjectFileInfo : MonoBehaviour
         if (SetupComplete) return;
 
         FileInfo fileInfo = new FileInfo(Path);
-
+        if (fileInfo.Exists)
+        {
         this.Name = fileInfo.Name;
         this.Extension = fileInfo.Extension;
         this.Size = fileInfo.Length;
@@ -56,6 +57,9 @@ public class ObjectFileInfo : MonoBehaviour
         DirPath = string.Join('/',S);
 
         SetupComplete = true;
+        }
+        else
+        Debug.LogError($"File does not exist!{Path}");
     }
 
     public void Setup(FileInfo fileInfo)
