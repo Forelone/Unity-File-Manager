@@ -1,18 +1,40 @@
 using System.Collections;
+using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MM_Send : MonoBehaviour
 {
+    InputField IF;
+    Text T;
+
     void Awake()
     {
         DontDestroyOnLoad(transform.root.gameObject);
-        InputField IF = GetComponent<InputField>();
+        IF = GetComponent<InputField>();
         IF.onSubmit.AddListener(LoadScene);
     }
 
-    void LoadScene(string Path) => StartCoroutine(LoadSceneHandle(Path));
+    public void LoadLastPath()
+    {
+        string Path = PlayerPrefs.GetString("LastPath");
+        LoadScene(Path);
+    }
+
+    void LoadScene(string Path) 
+    {
+        if (Directory.Exists(Path))
+        {
+            PlayerPrefs.SetString("LastPath",Path);
+            StartCoroutine(LoadSceneHandle(Path));
+        }
+        else
+        {
+            IF.text = "<color=red>This path does not exist!</color>";
+        }
+    }
 
     IEnumerator LoadSceneHandle(string Path)
     {
